@@ -1,8 +1,9 @@
 from django.test import TestCase
 from django.test.utils import override_settings
-from ..data_importer import GitlabDataImporter
-from ..models import GitlabProject, GitlabIssue
+from colab_gitlab.data_importer import GitlabDataImporter
+from colab_gitlab.models import GitlabProject, GitlabIssue
 from mock import patch
+
 import data
 from dateutil.parser import parse
 
