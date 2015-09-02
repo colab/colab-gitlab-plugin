@@ -1,11 +1,12 @@
 
-from ..utils.apps import ColabPluginAppConfig
-from colab.plugins.gitlab.tasks import handling_method
+from colab.plugins.utils.apps import ColabPluginAppConfig
 from colab.signals.signals import register_signal, connect_signal
+
+from colab_gitlab.tasks import handling_method
 
 
 class GitlabPluginAppConfig(ColabPluginAppConfig):
-    name = 'colab.plugins.gitlab'
+    name = 'colab_gitlab'
     verbose_name = 'Gitlab Plugin'
     short_name = 'gitlab'
 

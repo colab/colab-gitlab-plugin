@@ -67,7 +67,7 @@
         "public": true,
         "name": "Colab"
       },
-    "model": "gitlab.gitlabproject",
+    "model": "colab_gitlab.gitlabproject",
     "pk": 14
 },
 {
@@ -82,7 +82,7 @@
         "state": "merged",
         "user": null
     },
-    "model": "gitlab.gitlabmergerequest",
+    "model": "colab_gitlab.gitlabmergerequest",
     "pk": 7
 },
 {
@@ -94,7 +94,7 @@
         "state": "closed",
         "user": null
     },
-    "model": "gitlab.gitlabissue",
+    "model": "colab_gitlab.gitlabissue",
     "pk": 2
 }
 ]

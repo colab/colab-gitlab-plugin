@@ -4,9 +4,8 @@ Objective: Test parameters, and behavior.
 """
 from django.test import TestCase, Client
 
-from colab.plugins.gitlab.models import (GitlabProject, GitlabGroup,
-                                         GitlabIssue, GitlabComment,
-                                         GitlabMergeRequest)
+from colab_gitlab.models import (GitlabProject, GitlabGroup, GitlabIssue,
+                                 GitlabComment, GitlabMergeRequest)
 
 
 class GitlabTest(TestCase):

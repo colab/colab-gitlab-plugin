@@ -12,7 +12,7 @@ upstream = 'localhost'
 #middlewares = []
 
 urls = {
-    'include': 'colab.plugins.gitlab.urls',
+    'include': 'colab_gitlab.urls',
     'namespace': 'gitlab',
     'prefix': 'gitlab',
 }

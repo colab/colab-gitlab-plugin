@@ -1,9 +1,9 @@
-colab_apps = {'gitlab':
+colab_apps = {'colab_gitlab':
               {'menu_title': None,
                'private_token': 'token',
                'upstream': 'localhost',
                'urls':
-               {'include': 'colab.plugins.gitlab.urls',
+               {'include': 'colab_gitlab.urls',
                 'namespace': 'gitlab',
                 'prefix': 'gitlab/'}}}
 

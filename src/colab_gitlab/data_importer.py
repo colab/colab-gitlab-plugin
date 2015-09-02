@@ -12,11 +12,11 @@ from .models import (GitlabProject, GitlabMergeRequest,
                      GitlabComment, GitlabIssue, GitlabGroup)
 
 
-LOGGER = logging.getLogger('colab.plugin.gitlab')
+LOGGER = logging.getLogger('colab_gitlab')
 
 
 class GitlabDataImporter(PluginDataImporter):
-    app_label = 'gitlab'
+    app_label = 'colab_gitlab'
 
     def get_request_url(self, path, **kwargs):
         upstream = self.config.get('upstream')

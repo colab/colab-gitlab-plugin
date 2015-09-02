@@ -1,3 +1,3 @@
 
 
-default_app_config = 'colab.plugins.gitlab.apps.GitlabPluginAppConfig'
+default_app_config = 'colab_gitlab.apps.GitlabPluginAppConfig'

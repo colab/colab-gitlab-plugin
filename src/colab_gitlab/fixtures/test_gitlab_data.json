@@ -38,7 +38,7 @@
     "public": true,
     "name": "colab"
   },
-  "model": "gitlab.gitlabproject",
+  "model": "colab_gitlab.gitlabproject",
   "pk": 1
 },
 {
@@ -51,7 +51,7 @@
     "public": true,
     "name": "colabinc"
   },
-  "model": "gitlab.gitlabproject",
+  "model": "colab_gitlab.gitlabproject",
   "pk": 2
 },
 {
@@ -60,7 +60,7 @@
     "name": "Software Public",
     "owner_id": 1
   },
-  "model": "gitlab.gitlabgroup",
+  "model": "colab_gitlab.gitlabgroup",
   "pk": 1
 },
 {
@@ -75,7 +75,7 @@
     "state": "Closed",
     "user": 1
   },
-  "model": "gitlab.gitlabmergerequest",
+  "model": "colab_gitlab.gitlabmergerequest",
   "pk": 1
 },
 {
@@ -90,7 +90,7 @@
     "state": "Closed",
     "user": 1
   },
-  "model": "gitlab.gitlabmergerequest",
+  "model": "colab_gitlab.gitlabmergerequest",
   "pk": 2
 },
 {
@@ -103,7 +103,7 @@
     "state": "Open",
     "user": 1
   },
-  "model": "gitlab.gitlabissue",
+  "model": "colab_gitlab.gitlabissue",
   "pk": 1
 },
 {
@@ -116,7 +116,7 @@
     "state": "Open",
     "user": 1
   },
-  "model": "gitlab.gitlabissue",
+  "model": "colab_gitlab.gitlabissue",
   "pk": 2
 },
 {
@@ -128,7 +128,7 @@
     "parent_id": 1,
     "user": 1
   },
-  "model": "gitlab.gitlabcomment",
+  "model": "colab_gitlab.gitlabcomment",
   "pk": 1
 },
 {
@@ -140,7 +140,7 @@
     "parent_id": 1,
     "user": 1
   },
-  "model": "gitlab.gitlabcomment",
+  "model": "colab_gitlab.gitlabcomment",
   "pk": 2
 }
 ]

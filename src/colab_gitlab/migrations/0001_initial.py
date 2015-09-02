@@ -98,7 +98,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='gitlabmergerequest',
             name='project',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.SET_NULL, to='gitlab.GitlabProject', null=True),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.SET_NULL, to='colab_gitlab.GitlabProject', null=True),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -110,7 +110,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='gitlabissue',
             name='project',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.SET_NULL, to='gitlab.GitlabProject', null=True),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.SET_NULL, to='colab_gitlab.GitlabProject', null=True),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -122,7 +122,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='gitlabcomment',
             name='project',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.SET_NULL, to='gitlab.GitlabProject', null=True),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.SET_NULL, to='colab_gitlab.GitlabProject', null=True),
             preserve_default=True,
         ),
         migrations.AddField(
