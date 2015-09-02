@@ -7,7 +7,11 @@ A Gitlab plugin for Colab.
 """
 from setuptools import setup, find_packages
 
-install_requires = ['colab']
+install_requires = [
+    'colab',
+    'python-dateutil>=1.5',
+    'requests>=2.7.0',
+]
 
 tests_require = ['mock']
 
