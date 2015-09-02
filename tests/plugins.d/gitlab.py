@@ -1,5 +1,6 @@
 
-_ = lambda s: s
+from django.utils.translation import ugettext_lazy as _
+from colab.plugins.utils.menu import colab_url_factory
 
 # Gitlab plugin - Put this in plugins.d/gitlab.py to actiate ##
 # from django.utils.translation import ugettext_lazy as _
@@ -19,7 +20,6 @@ urls = {
 
 menu_title = _('Code')
 
-from colab.plugins.utils.menu import colab_url_factory
 url = colab_url_factory('gitlab')
 
 menu_urls = (
