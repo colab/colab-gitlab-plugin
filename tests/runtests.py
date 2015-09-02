@@ -9,6 +9,7 @@ from django.test.utils import get_runner
 def run():
     os.environ['DJANGO_SETTINGS_MODULE'] = 'colab.settings'
     os.environ['COLAB_PLUGINS'] = 'tests/plugins.d'
+    os.environ['COLAB_SETTINGS'] = 'tests/colab_settings.py'
     django.setup()
     TestRunner = get_runner(settings)
     test_runner = TestRunner()
