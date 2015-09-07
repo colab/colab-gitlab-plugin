@@ -1,16 +1,16 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Macartur de Sousa <macartur.sc@gmail.com>, 2015.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-09-04 20:11+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: Mon Sep  7 12:24:23 BRT 2015 \n"
+"Last-Translator:  Macártur de Sousa Carvalho <macartur.sc@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -20,36 +20,40 @@ msgstr ""
 
 #: models.py:27
 msgid "Gitlab Project"
-msgstr "Projeto no Gitlab"
+msgstr "Projeto"
 
 #: models.py:28
 msgid "Gitlab Projects"
-msgstr "Projetos no Gitlab"
+msgstr "Projetos"
 
 #: models.py:54
 msgid "Gitlab Group"
-msgstr "Grupo no Gitlab"
+msgstr "Grupo"
 
 #: models.py:55
 msgid "Gitlab Groups"
-msgstr "Grupos no Gitlab"
+msgstr "Grupos"
 
 #: models.py:91
 msgid "Gitlab Merge Request"
-msgstr "Merge Request no Gitlab"
+msgstr "Envio de Contribuição"
 
 #: models.py:92
 msgid "Gitlab Merge Requests"
-msgstr "Merge Requests no Gitlab"
+msgstr "Envio de Contribuição"
 
 #: models.py:120
 msgid "Gitlab Issue"
-msgstr "Issue no Gitlab"
+msgstr "Tíquete"
 
 #: models.py:121
 msgid "Gitlab Issues"
-msgstr "Issues no Gitlab"
+msgstr "Tíquetes"
 
 #: models.py:176 models.py:177
 msgid "Gitlab Comments"
-msgstr "Comentários no Gitlab"
+msgstr "Comentários"
+
+#: development
+msgid "Development"
+msgstr "Desenvolvimento"
