@@ -40,7 +40,7 @@ msgstr "Envio de Contribuição"
 
 #: models.py:92
 msgid "Gitlab Merge Requests"
-msgstr "Envio de Contribuição"
+msgstr "Envio de Contribuições"
 
 #: models.py:120
 msgid "Gitlab Issue"
