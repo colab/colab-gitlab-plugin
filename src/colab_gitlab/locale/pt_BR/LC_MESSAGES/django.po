@@ -69,3 +69,7 @@ msgstr "Novo Projeto"
 #: manual
 msgid "Issues"
 msgstr "Tíquetes"
+
+#: manual
+msgid "Projects"
+msgstr "Projetos"
