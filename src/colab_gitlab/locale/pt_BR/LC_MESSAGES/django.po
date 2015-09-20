@@ -54,6 +54,18 @@ msgstr "Tíquetes"
 msgid "Gitlab Comments"
 msgstr "Comentários"
 
-#: development
+#: manual
 msgid "Development"
 msgstr "Desenvolvimento"
+
+#: manual
+msgid "Public Projects"
+msgstr "Projetos Públicos"
+
+#: manual
+msgid "New Project"
+msgstr "Novo Projeto"
+
+#: manual
+msgid "Issues"
+msgstr "Tíquetes"
