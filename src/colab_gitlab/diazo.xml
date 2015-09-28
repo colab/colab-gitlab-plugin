@@ -7,6 +7,8 @@
     <before css:theme-children="#main-content" css:content-children="body" />
 
     <merge attributes="class" css:theme="body" css:content="body" />
+
+    <drop css:content="head link[rel='shortcut icon']" />
     
     <!-- Add gitlab properties -->
     <merge attributes="data-page" css:theme="body" css:content="body" />
