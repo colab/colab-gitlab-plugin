@@ -1,5 +1,6 @@
 from django.utils.translation import ugettext as _
 
+
 def get_filters(request):
     return {
         'gitlab_projects': {
@@ -9,7 +10,7 @@ def get_filters(request):
                 ('title', _(u'Name'), request.GET.get('title')),
                 (
                     'description',
-                    _(u'Description'), 
+                    _(u'Description'),
                     request.GET.get('description'),
                 ),
             ),
@@ -21,7 +22,7 @@ def get_filters(request):
                 ('title', _(u'Name'), request.GET.get('title')),
                 (
                     'description',
-                    _(u'Description'), 
+                    _(u'Description'),
                     request.GET.get('description'),
                 ),
                 ('tag', _(u'State'), request.GET.get('tag')),
@@ -34,7 +35,7 @@ def get_filters(request):
                 ('title', _(u'Name'), request.GET.get('title')),
                 (
                     'description',
-                    _(u'Description'), 
+                    _(u'Description'),
                     request.GET.get('description'),
                 ),
                 ('tag', _(u'State'), request.GET.get('tag')),
@@ -47,7 +48,7 @@ def get_filters(request):
                 ('title', _(u'Name'), request.GET.get('title')),
                 (
                     'description',
-                    _(u'Description'), 
+                    _(u'Description'),
                     request.GET.get('description'),
                 ),
             ),
