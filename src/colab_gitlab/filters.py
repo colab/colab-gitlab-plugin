@@ -7,11 +7,11 @@ def get_filters(request):
             'name': _(u'Projects'),
             'icon': 'hdd',
             'fields': (
-                ('title', _(u'Name'), request.GET.get('title')),
+                ('title', _(u'Name'), ''),
                 (
                     'description',
                     _(u'Description'),
-                    request.GET.get('description'),
+                    request.get('description'),
                 ),
             ),
         },
@@ -19,37 +19,37 @@ def get_filters(request):
             'name': _(u'Merge Requests'),
             'icon': 'random',
             'fields': (
-                ('title', _(u'Name'), request.GET.get('title')),
+                ('title', _(u'Name'), request.get('title')),
                 (
                     'description',
                     _(u'Description'),
-                    request.GET.get('description'),
+                    request.get('description'),
                 ),
-                ('tag', _(u'State'), request.GET.get('tag')),
+                ('tag', _(u'State'), request.get('tag')),
             ),
         },
         'gitlab_issues': {
             'name': _(u'Issues'),
             'icon': 'info-sign',
             'fields': (
-                ('title', _(u'Name'), request.GET.get('title')),
+                ('title', _(u'Name'), request.get('title')),
                 (
                     'description',
                     _(u'Description'),
-                    request.GET.get('description'),
+                    request.get('description'),
                 ),
-                ('tag', _(u'State'), request.GET.get('tag')),
+                ('tag', _(u'State'), request.get('tag')),
             ),
         },
         'gitlab_comments': {
             'name': _(u'Comments'),
             'icon': 'comment',
             'fields': (
-                ('title', _(u'Name'), request.GET.get('title')),
+                ('title', _(u'Name'), request.get('title')),
                 (
                     'description',
                     _(u'Description'),
-                    request.GET.get('description'),
+                    request.get('description'),
                 ),
             ),
         },
