@@ -20,7 +20,7 @@ table = string.maketrans(
 
 
 class GitlabProjectIndex(indexes.SearchIndex, indexes.Indexable):
-    text = indexes.CharField(document=True, use_template=False, stored=False)
+    text = indexes.CharField(document=True, use_template=True, stored=False)
     title = indexes.CharField(model_attr='name')
     description = indexes.CharField(model_attr='description', null=True)
     tag = indexes.CharField()
@@ -47,7 +47,7 @@ class GitlabProjectIndex(indexes.SearchIndex, indexes.Indexable):
 
 class GitlabMergeRequestIndex(indexes.SearchIndex, indexes.Indexable):
 
-    text = indexes.CharField(document=True, use_template=False, stored=False)
+    text = indexes.CharField(document=True, use_template=True, stored=False)
     title = indexes.CharField(model_attr='title')
     description = indexes.CharField(model_attr='description')
     tag = indexes.CharField(model_attr='state')
@@ -72,7 +72,7 @@ class GitlabMergeRequestIndex(indexes.SearchIndex, indexes.Indexable):
 
 class GitlabIssueIndex(indexes.SearchIndex, indexes.Indexable):
 
-    text = indexes.CharField(document=True, use_template=False, stored=False)
+    text = indexes.CharField(document=True, use_template=True, stored=False)
     title = indexes.CharField(model_attr='title')
     description = indexes.CharField(model_attr='description')
     tag = indexes.CharField(model_attr='state')
@@ -97,7 +97,7 @@ class GitlabIssueIndex(indexes.SearchIndex, indexes.Indexable):
 
 class GitlabCommentIndex(indexes.SearchIndex, indexes.Indexable):
 
-    text = indexes.CharField(document=True, use_template=False, stored=False)
+    text = indexes.CharField(document=True, use_template=True, stored=False)
     title = indexes.CharField(model_attr='title')
     description = indexes.CharField(model_attr='description')
     tag = indexes.CharField()
