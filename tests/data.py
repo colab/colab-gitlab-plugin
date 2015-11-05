@@ -4,7 +4,6 @@ colab_apps = {'colab_gitlab':
                'upstream': 'localhost',
                'urls':
                {'include': 'colab_gitlab.urls',
-                'namespace': 'gitlab',
                 'prefix': 'gitlab/'}}}
 
 projects_json = [{"id": 32,

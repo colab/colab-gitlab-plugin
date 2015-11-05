@@ -14,7 +14,6 @@ upstream = 'localhost'
 
 urls = {
     'include': 'colab_gitlab.urls',
-    'namespace': 'gitlab',  # TODO: do not allow to change namespace
     'prefix': '^gitlab/',
 }
 
