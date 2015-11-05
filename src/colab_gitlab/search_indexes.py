@@ -30,7 +30,7 @@ class GitlabProjectIndex(indexes.SearchIndex, indexes.Indexable):
     created = indexes.DateTimeField(model_attr='created_at', null=True)
 
     def prepare_tag(self, obj):
-        return "{}".format(obj.name_with_namespace.split('/')[0].strip())
+        return u"{}".format(obj.name_with_namespace.split('/')[0].strip())
 
     def prepare_icon_name(self, obj):
         return u'file'
