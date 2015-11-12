@@ -1,0 +1,15 @@
+{% load i18n tz highlight upstream %}
+<li class="preview-message">
+  <span class="glyphicon glyphicon-{{ result.icon_name }}" title="{{ result.type }}"></span>
+  <a href="{{ result.url }}">
+    <span class="label label-primary">{{result.project.name}}</span>
+    <span class="subject">
+      {{ result.title }}
+    </span>
+  </a>
+
+  <div class="quiet">
+    <span class="pull-left">{{ result.description|default_if_none:""|striptags|escape|truncatechars:65 }}</span>
+    <span class="pull-right">{{ result.modified|localtime|timesince }} {% trans "ago" %}</span>
+  </div>
+</li>
