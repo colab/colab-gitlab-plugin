@@ -105,7 +105,7 @@ class GitlabIssue(Collaboration):
     created_at = models.DateTimeField(blank=True, null=True)
 
     icon_name = u'align-right'
-    type = u'gitlab_issue'
+    type = u'issue'
 
     @property
     def modified(self):

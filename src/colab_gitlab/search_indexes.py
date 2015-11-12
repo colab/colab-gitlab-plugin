@@ -42,7 +42,7 @@ class GitlabProjectIndex(indexes.SearchIndex, indexes.Indexable):
         return GitlabProject
 
     def prepare_type(self, obj):
-        return u'gitlab_projects'
+        return u'project'
 
 
 class GitlabMergeRequestIndex(indexes.SearchIndex, indexes.Indexable):
@@ -92,7 +92,7 @@ class GitlabIssueIndex(indexes.SearchIndex, indexes.Indexable):
         return u'align-right'
 
     def prepare_type(self, obj):
-        return u'gitlab_issues'
+        return u'issue'
 
 
 class GitlabCommentIndex(indexes.SearchIndex, indexes.Indexable):
@@ -120,4 +120,4 @@ class GitlabCommentIndex(indexes.SearchIndex, indexes.Indexable):
         return obj.tag
 
     def prepare_type(self, obj):
-        return u'gitlab_comments'
+        return u'comment'
