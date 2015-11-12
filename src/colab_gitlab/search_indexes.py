@@ -32,9 +32,6 @@ class GitlabProjectIndex(indexes.SearchIndex, indexes.Indexable):
     def prepare_tag(self, obj):
         return u"{}".format(obj.name_with_namespace.split('/')[0].strip())
 
-    def prepare_icon_name(self, obj):
-        return u'file'
-
     def get_ful_name(self):
         self.objs.name
 
@@ -63,11 +60,8 @@ class GitlabMergeRequestIndex(indexes.SearchIndex, indexes.Indexable):
     def get_model(self):
         return GitlabMergeRequest
 
-    def prepare_icon_name(self, obj):
-        return u'file'
-
     def prepare_type(self, obj):
-        return u'gitlab_merge_requests'
+        return u'merge_request'
 
 
 class GitlabIssueIndex(indexes.SearchIndex, indexes.Indexable):
@@ -87,9 +81,6 @@ class GitlabIssueIndex(indexes.SearchIndex, indexes.Indexable):
 
     def get_model(self):
         return GitlabIssue
-
-    def prepare_icon_name(self, obj):
-        return u'align-right'
 
     def prepare_type(self, obj):
         return u'issue'
@@ -112,9 +103,6 @@ class GitlabCommentIndex(indexes.SearchIndex, indexes.Indexable):
 
     def get_model(self):
         return GitlabComment
-
-    def prepare_icon_name(self, obj):
-        return u'align-right'
 
     def prepare_tag(self, obj):
         return obj.tag
