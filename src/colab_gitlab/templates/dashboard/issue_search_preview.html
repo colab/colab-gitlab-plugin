@@ -4,12 +4,12 @@
   <a href="{{ result.url }}">
     <span class="label label-primary">{{result.project.name}}</span>
     <span class="subject">
-      {{ result.title }}
+      {{ result.title|default_if_none:""|striptags|escape|truncatechars:60 }}
     </span>
   </a>
 
   <div class="quiet">
-    <span class="pull-left">{{result.state}} - {{ result.description|default_if_none:""|striptags|escape|truncatechars:40 }}</span>
+    <span class="pull-left"><strong>{{result.state}}</strong> {{ result.description|default_if_none:""|striptags|escape|truncatechars:60 }}</span>
     <span class="pull-right">{{ result.modified|localtime|timesince }} {% trans "ago" %}</span>
   </div>
 </li>
