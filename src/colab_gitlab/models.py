@@ -14,6 +14,7 @@ class GitlabProject(models.Model, HitCounterModelMixin):
     created_at = models.DateTimeField(blank=True)
     last_activity_at = models.DateTimeField(blank=True)
     path_with_namespace = models.TextField(blank=True, null=True)
+    icon_name = u'hdd'
 
     @property
     def namespace(self):
@@ -77,7 +78,7 @@ class GitlabMergeRequest(Collaboration):
         return self.state
 
     type = u'merge_request'
-    icon_name = u'file'
+    icon_name = u'random'
 
     @property
     def url(self):
@@ -104,8 +105,8 @@ class GitlabIssue(Collaboration):
     state = models.TextField()
     created_at = models.DateTimeField(blank=True, null=True)
 
-    icon_name = u'align-right'
-    type = u'gitlab_issue'
+    icon_name = u'info-sign'
+    type = u'issue'
 
     @property
     def modified(self):
@@ -147,7 +148,7 @@ class GitlabComment(Collaboration):
             merge_request = GitlabMergeRequest.objects.get(id=self.parent_id)
             return merge_request.title
 
-    icon_name = u'align-right'
+    icon_name = u'comment'
 
     @property
     def description(self):
