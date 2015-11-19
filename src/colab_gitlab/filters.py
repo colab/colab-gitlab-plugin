@@ -3,7 +3,7 @@ from django.utils.translation import ugettext as _
 
 def get_filters(request):
     return {
-        'gitlab_projects': {
+        'projects': {
             'name': _(u'Projects'),
             'icon': 'hdd',
             'fields': (
@@ -15,7 +15,7 @@ def get_filters(request):
                 ),
             ),
         },
-        'gitlab_merge_requests': {
+        'merge_requests': {
             'name': _(u'Merge Requests'),
             'icon': 'random',
             'fields': (
@@ -28,7 +28,7 @@ def get_filters(request):
                 ('tag', _(u'State'), request.get('tag')),
             ),
         },
-        'gitlab_issues': {
+        'issues': {
             'name': _(u'Issues'),
             'icon': 'info-sign',
             'fields': (
@@ -41,7 +41,7 @@ def get_filters(request):
                 ('tag', _(u'State'), request.get('tag')),
             ),
         },
-        'gitlab_comments': {
+        'comments': {
             'name': _(u'Comments'),
             'icon': 'comment',
             'fields': (
