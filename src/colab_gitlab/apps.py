@@ -18,3 +18,7 @@ class GitlabPluginAppConfig(ColabPluginAppConfig):
 
     def connect_signal(self):
         connect_signal(self.signals_list[0], self.short_name, handling_method)
+
+    def ready(self):
+        from . import signals
+        super(GitlabPluginAppConfig, self).ready()
