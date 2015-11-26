@@ -24,7 +24,7 @@ def update_gitlab_password(sender, **kwargs):
 
     users_endpoint = '{}/api/v3/users'.format(upstream)
 
-    params = {'username': user.username, 'private_token': private_token}
+    params = {'search': user.username, 'private_token': private_token}
     try:
         response = requests.get(users_endpoint, params=params)
     except Exception as excpt:
