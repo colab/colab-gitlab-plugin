@@ -19,6 +19,7 @@ def update_gitlab_password(sender, **kwargs):
     app_config = settings.COLAB_APPS.get('colab_gitlab', {})
     private_token = app_config.get('private_token')
     upstream = app_config.get('upstream', '').rstrip('/')
+    verify_ssl = app_config.get('verify_ssl', True)
 
     error_msg = u'Error trying to update "%s" password on Gitlab. Reason: %s'
 
@@ -26,7 +27,8 @@ def update_gitlab_password(sender, **kwargs):
 
     params = {'search': user.username, 'private_token': private_token}
     try:
-        response = requests.get(users_endpoint, params=params)
+        response = requests.get(users_endpoint, params=params,
+                                verify=verify_ssl)
     except Exception as excpt:
         reason = 'Request to API failed ({})'.format(excpt)
         LOGGER.error(error_msg, user.username, reason)
@@ -45,7 +47,7 @@ def update_gitlab_password(sender, **kwargs):
     params = {'private_token': private_token, 'password': password}
     request_url = '{}/{}'.format(users_endpoint, gitlab_user['id'])
     try:
-        response = requests.put(request_url, params=params)
+        response = requests.put(request_url, params=params, verify=verify_ssl)
     except Exception as excpt:
         reason = 'Request to API failed ({})'.format(excpt)
         LOGGER.error(error_msg, user.username, reason)
@@ -71,6 +73,7 @@ def create_gitlab_user(sender, **kwargs):
     app_config = settings.COLAB_APPS.get('colab_gitlab', {})
     private_token = app_config.get('private_token')
     upstream = app_config.get('upstream', '').rstrip('/')
+    verify_ssl = app_config.get('verify_ssl', True)
 
     users_endpoint = '{}/api/v3/users'.format(upstream)
 
@@ -87,7 +90,8 @@ def create_gitlab_user(sender, **kwargs):
 
     error_msg = u'Error trying to update "%s" password on Gitlab. Reason: %s'
     try:
-        response = requests.post(users_endpoint, params=params)
+        response = requests.post(users_endpoint, params=params,
+                                 verify=verify_ssl)
     except Exception as excpt:
         reason = 'Request to API failed ({})'.format(excpt)
         LOGGER.error(error_msg, user.username, reason)
