@@ -9,6 +9,7 @@ class GitlabPluginAppConfig(ColabPluginAppConfig):
     name = 'colab_gitlab'
     verbose_name = 'Gitlab Plugin'
     short_name = 'gitlab'
+    namespace = 'gitlab'
 
     signals_list = ['gitlab_create_project']
 
