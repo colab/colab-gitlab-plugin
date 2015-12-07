@@ -2,13 +2,11 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Macartur de Sousa <macartur.sc@gmail.com>, 2015.
-#
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-22 13:21+0000\n"
+"POT-Creation-Date: 2015-12-03 18:50+0000\n"
 "PO-Revision-Date: Mon Sep  7 12:24:23 BRT 2015 \n"
 "Last-Translator:  Macártur de Sousa Carvalho <macartur.sc@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,87 +16,93 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: colab-gitlab-plugin/src/colab_gitlab/filters.py:6
+#: filters.py:7
 msgid "Projects"
 msgstr "Projetos"
 
-#: colab-gitlab-plugin/src/colab_gitlab/filters.py:9
-#: colab-gitlab-plugin/src/colab_gitlab/filters.py:21
-#: colab-gitlab-plugin/src/colab_gitlab/filters.py:34
-#: colab-gitlab-plugin/src/colab_gitlab/filters.py:47
+#: filters.py:10 filters.py:22 filters.py:35 filters.py:48
 msgid "Name"
 msgstr "Nome"
 
-#: colab-gitlab-plugin/src/colab_gitlab/filters.py:12
-#: colab-gitlab-plugin/src/colab_gitlab/filters.py:24
-#: colab-gitlab-plugin/src/colab_gitlab/filters.py:37
-#: colab-gitlab-plugin/src/colab_gitlab/filters.py:50
+#: filters.py:13 filters.py:25 filters.py:38 filters.py:51
 msgid "Description"
 msgstr "Descrição"
 
-#: colab-gitlab-plugin/src/colab_gitlab/filters.py:18
-#, fuzzy
-#| msgid "Gitlab Merge Requests"
+#: filters.py:19
 msgid "Merge Requests"
 msgstr "Envio de Contribuições"
 
-#: colab-gitlab-plugin/src/colab_gitlab/filters.py:27
-#: colab-gitlab-plugin/src/colab_gitlab/filters.py:40
+#: filters.py:28 filters.py:41
 msgid "State"
 msgstr "Estado"
 
-#: colab-gitlab-plugin/src/colab_gitlab/filters.py:31
+#: filters.py:32
 msgid "Issues"
 msgstr "Tíquetes"
 
-#: colab-gitlab-plugin/src/colab_gitlab/filters.py:44
-#, fuzzy
-#| msgid "Gitlab Comments"
+#: filters.py:45
 msgid "Comments"
 msgstr "Comentários"
 
-#: colab-gitlab-plugin/src/colab_gitlab/models.py:27
+#: models.py:28
 msgid "Gitlab Project"
 msgstr "Projeto"
 
-#: colab-gitlab-plugin/src/colab_gitlab/models.py:28
+#: models.py:29
 msgid "Gitlab Projects"
 msgstr "Projetos"
 
-#: colab-gitlab-plugin/src/colab_gitlab/models.py:54
+#: models.py:55
 msgid "Gitlab Group"
 msgstr "Grupo"
 
-#: colab-gitlab-plugin/src/colab_gitlab/models.py:55
+#: models.py:56
 msgid "Gitlab Groups"
 msgstr "Grupos"
 
-#: colab-gitlab-plugin/src/colab_gitlab/models.py:91
+#: models.py:92
 msgid "Gitlab Merge Request"
 msgstr "Envio de Contribuição"
 
-#: colab-gitlab-plugin/src/colab_gitlab/models.py:92
+#: models.py:93
 msgid "Gitlab Merge Requests"
 msgstr "Envio de Contribuições"
 
-#: colab-gitlab-plugin/src/colab_gitlab/models.py:120
+#: models.py:121
 msgid "Gitlab Issue"
 msgstr "Tíquete"
 
-#: colab-gitlab-plugin/src/colab_gitlab/models.py:121
+#: models.py:122
 msgid "Gitlab Issues"
 msgstr "Tíquetes"
 
-#: colab-gitlab-plugin/src/colab_gitlab/models.py:176
-#: colab-gitlab-plugin/src/colab_gitlab/models.py:177
+#: models.py:177 models.py:178
 msgid "Gitlab Comments"
 msgstr "Comentários"
 
-#~ msgid "Development"
-#~ msgstr "Desenvolvimento"
+#: password_validators.py:8
+msgid "Password must have at least 8 characters."
+msgstr "A senha deve ter pelo menos 8 caracteres."
 
-#~ msgid "Public Projects"
-#~ msgstr "Projetos Públicos"
+#: templates/search/comment_search_preview.html:8
+#: templates/search/issue_search_preview.html:7
+#: templates/search/merge_request_search_preview.html:8
+#: templates/search/project_search_preview.html:11
+msgid "Registred in"
+msgstr "Registrado em"
 
-#~ msgid "New Project"
-#~ msgstr "Novo Projeto"
+#: templates/search/comment_search_preview.html:8
+#: templates/search/issue_search_preview.html:7
+#: templates/search/merge_request_search_preview.html:8
+#: templates/search/project_search_preview.html:11
+msgid "Code"
+msgstr "Código"
+
+msgid "Development"
+msgstr "Desenvolvimento"
+
+msgid "Public Projects"
+msgstr "Projetos Públicos"
+
+msgid "New Project"
+msgstr "Novo Projeto"

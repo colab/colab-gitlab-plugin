@@ -10,6 +10,11 @@ name = 'colab_gitlab'
 verbose_name = 'Gitlab Plugin'
 
 upstream = 'localhost'
+
+# Uncomment the following line if your gitlab is using
+#   SSL with a self-signed certificate
+# verify_ssl = False
+
 #middlewares = []
 
 urls = {
