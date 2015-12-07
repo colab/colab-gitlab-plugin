@@ -2,6 +2,7 @@
 Test User class.
 Objective: Test parameters, and behavior.
 """
+
 from django.test import TestCase, Client
 
 from colab_gitlab.models import (GitlabProject, GitlabGroup, GitlabIssue,

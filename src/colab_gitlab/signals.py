@@ -36,6 +36,12 @@ def update_gitlab_password(sender, **kwargs):
 
     users = response.json()
 
+    if 'message' in users:
+        if '401' in users['message']:
+            reason = 'Unknown.'
+            LOGGER.error(error_msg, user.username, reason)
+            return
+
     for gitlab_user in users:
         if gitlab_user.get('username') == user.username:
             break
@@ -55,10 +61,14 @@ def update_gitlab_password(sender, **kwargs):
 
     if response.status_code != 200:
         fail_data = response.json()
+        reason = 'Unknown.'
+
         if 'message' in fail_data:
-            reason = fail_data['message'].get('password')
-        else:
-            reason = 'Unknown.'
+            fail_data_message = fail_data['message']
+            if (isinstance(fail_data_message, dict) and
+                    'password' in fail_data_message):
+                reason = fail_data['message'].get('password')
+
         LOGGER.error(error_msg, user.username, reason)
         return
 
@@ -99,10 +109,14 @@ def create_gitlab_user(sender, **kwargs):
 
     if response.status_code != 201:
         fail_data = response.json()
+        reason = 'Unknown.'
+
         if 'message' in fail_data:
-            reason = fail_data['message'].get('password')
-        else:
-            reason = 'Unknown.'
+            fail_data_message = fail_data['message']
+            if (isinstance(fail_data_message, dict) and
+                    'password' in fail_data_message):
+                reason = fail_data['message'].get('password')
+
         LOGGER.error(error_msg, user.username, reason)
         return
 
