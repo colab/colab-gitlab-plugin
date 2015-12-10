@@ -2,9 +2,31 @@
 
 <div class="row">
   <div class="col-md-12">
-    <small>{% datetime_format result.modified %} {{result.modified_by|default_if_none:""}} </small><br>
-    <h4><a href="{{result.url}}">{{ result.title }}</a></h4>
-    <p>{{result.description|default_if_none:" "|truncatewords:"85"}}</p>
+    <small>{% datetime_format result.modified %}
+      {% with mod=result.modified_by|default_if_none:"" %}
+        {% if query %}
+          {% highlight mod with query %}
+        {% else %}
+          {{mod}}
+        {% endif %}
+      {% endwith %}
+    </small><br>
+    <h4><a href="{{result.url}}">
+      {% if query %}
+        {% highlight result.title with query %}
+      {% else %}
+        {{result.title}}
+      {% endif %}
+    </a></h4>
+    <p>
+      {% with desc=result.description|default_if_none:" "|truncatewords:"85" %}
+        {% if query %}
+          {% highlight desc with query %}
+        {% else %}
+          {{desc}}
+        {% endif %}
+      {% endwith %}
+    </p>
     <small>{% trans "Registred in" %}: <strong>{% trans "Code" %}</strong></small>
   </div>
   <hr>
