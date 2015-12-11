@@ -1,8 +1,8 @@
-{% load i18n tz highlight date_format %}
+{% load i18n tz highlight %}
 
 <div class="row">
   <div class="col-md-12">
-    <small>{% datetime_format result.modified %} {{result.modified_by|default_if_none:""}}</small><br>
+    <small>{{ result.modified|date:"d F Y"}} {{result.modified_by|default_if_none:""}}</small><br>
     <h4><a href="{{result.url}}">
       {% if query %}
         {% highlight result.title with query %}
