@@ -7,7 +7,7 @@ from hitcounter.models import HitCounterModelMixin
 class GitlabProject(models.Model, HitCounterModelMixin):
 
     id = models.IntegerField(primary_key=True)
-    description = models.TextField()
+    description = models.TextField(blank=True, null=True)
     public = models.BooleanField(default=True)
     name = models.TextField()
     name_with_namespace = models.TextField()
