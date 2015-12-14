@@ -11,7 +11,7 @@
       {% endif %}
     </a></h4>
     <p>
-      {% with result.description|truncatewords:"85"|default_if_none:"a" as description %}
+      {% with result.description|truncatechars:"140"|default_if_none:"a" as description %}
         {% if query %}
           {% highlight description with query %}
         {% else %}

@@ -20,7 +20,7 @@
 
     </a></h4>
     <p>
-      {% with desc=result.description|default_if_none:" "|truncatewords:"85" %}
+      {% with desc=result.description|default_if_none:" "|truncatechars:"140" %}
         {% if query %}
           {% highlight desc with query %}
         {% else %}
