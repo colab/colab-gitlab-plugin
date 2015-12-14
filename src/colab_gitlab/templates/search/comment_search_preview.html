@@ -1,8 +1,8 @@
-{% load i18n tz highlight %}
+{% load i18n tz highlight gitlab_urls %}
 
 <div class="row">
   <div class="col-md-12">
-    <small>{{ result.modified|date:"d F Y"}} {{result.modified_by|default_if_none:""}}</small><br>
+    <small>{{ result.modified|date:"d F Y"}} {{profile_url result.modified_by|default_if_none:"" result.modified_by_url}}</small><br>
     <h4><a href="{{result.url}}">
       {% if query %}
         {% highlight result.title with query %}
