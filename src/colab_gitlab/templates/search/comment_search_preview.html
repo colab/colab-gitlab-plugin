@@ -4,11 +4,7 @@
   <div class="col-md-12">
     <small>{{ result.modified|date:"d F Y" }}
       {% profile_url result.modified_by|default_if_none:"" result.modified_by_url as user_url%}
-      {% if query %}
-        {% highlight user_url|safe with query %}
-      {% else %}
-        {{user_url|safe}}
-      {% endif %}
+      {{user_url|safe}}
     </small><br>
     <h4><a href="{{result.url}}">
       {% if query %}
