@@ -1,28 +1,13 @@
-{% load i18n tz highlight gitlab_urls %}
+{% extends "search-base.html" %}
+{% load set_var gitlab_urls %}
+{% block content %}
+  {% profile_url result.modified_by|default_if_none:"" result.modified_by_url as user_url%}
+  {% set 'author' user_url %}
+  {% set 'title' result.title %}
+  {% set 'modified' result.modified %}
+  {% set 'url' result.url %}
+  {% set 'registered_in' "Code" %}
+  {% set 'description' result.description|default_if_none:" "|truncatechars:"140" %}
 
-<div class="row">
-  <div class="col-md-12">
-    <small>{{ result.modified|date:"d F Y" }}
-      {% profile_url result.modified_by|default_if_none:"" result.modified_by_url as user_url%}
-      {{user_url|safe}}
-    </small><br>
-    <h4><a href="{{result.url}}">
-      {% if query %}
-        {% highlight result.title with query %}
-      {% else %}
-        {{result.title}}
-      {% endif %}
-    </a></h4>
-    <p>
-      {% with desc=result.description|default_if_none:" "|truncatechars:"140" %}
-        {% if query %}
-          {% highlight desc with query %}
-        {% else %}
-          {{desc}}
-        {% endif %}
-      {% endwith %}
-    </p>
-    <small class="colab-result-register">{% trans "Registred in" %}: <strong>{% trans "Code" %}</strong></small>
-  </div>
-  <hr>
-</div>
+  {{ block.super }}
+{% endblock content %}
