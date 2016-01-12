@@ -18,7 +18,7 @@ tests_require = ['mock']
 
 setup(
     name="colab-gitlab",
-    version='0.2.2',
+    version='0.2.4',
     author='Sergio Oliveira',
     author_email='sergio@tracy.com.br',
     url='https://github.com/colab/colab-gitlab-plugin',
