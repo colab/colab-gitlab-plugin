@@ -40,6 +40,6 @@ menu_urls = (
     url(display=_('Issues'), viewname='gitlab',
         kwargs={'path': 'dashboard/issues'}, auth=True),
     url(display=_('Merge Requests'), viewname='gitlab',
-        kwargs={'path': 'merge_requests'}, auth=True),
+        kwargs={'path': 'dashboard/merge_requests'}, auth=True),
 
 )
