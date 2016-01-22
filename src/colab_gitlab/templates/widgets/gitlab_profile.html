@@ -1,0 +1,40 @@
+{% load static from staticfiles %}
+
+{% block head_css %}
+<style>
+  /* Reset left and with for .modal-dialog style (like gitlab does), 
+     the bootstrap.css one makes it small */
+  @media screen and (min-width: 768px) {
+    .modal-dialog {
+      left: auto;
+      width: auto;
+    }
+  }
+
+  div#main-content div.container {
+    width: 1110px;
+  }
+  div#main-content div.flash-container{
+    width: 85%;
+  }
+  #breadcrumbs {
+    border: 0 !important;
+  }
+
+  #right-top-nav {
+    margin-right: 5em !important;
+  }
+</style>
+{% endblock %}
+
+{% block head_js %}
+<script>jQuery.noConflict();</script>
+{% endblock %}
+
+<div id="gitlab-content">
+</div>
+
+<script type="text/javascript">
+  $('#gitlab-content form').prepend($("input[name='csrfmiddlewaretoken']").clone())
+  $('a.delete-key').attr('data-method', 'delete\" type=\"hidden\" /> <input name=\"csrfmiddlewaretoken\" value=\"' + jQuery("input[name='csrfmiddlewaretoken']").val());
+</script>
