@@ -1,5 +1,8 @@
 from colab_gitlab.views import GitlabProxyView
+from urllib3.exceptions import MaxRetryError
+import logging
 import re
+logger = logging.getLogger(__name__)
 
 
 def get_location(response):
@@ -14,8 +17,12 @@ def set_cookies(request, name, value):
 
 def authenticate_user(sender, user, request, **kwargs):
     request.method = 'GET'
-    proxy_view = GitlabProxyView()
-    gitlab_response = proxy_view.dispatch(request, 'profile')
+    try:
+        proxy_view = GitlabProxyView()
+        gitlab_response = proxy_view.dispatch(request, 'profile')
+    except MaxRetryError:
+        logger.info("Couldn't connect to gitlab")
+        return
 
     location = get_location(gitlab_response)
     set_cookies(request, '_remote_user', user.username)
