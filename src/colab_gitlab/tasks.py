@@ -8,7 +8,7 @@ def get_location(response):
 
 
 def set_cookies(request, name, value):
-    request.COOKIES.set(name, value, path='/gitlab')
+    request.COOKIES.set(name, value)
     request.META['HTTP_COOKIE'] += '; {}={}'.format(name, value)
 
 
@@ -27,10 +27,13 @@ def authenticate_user(sender, user, request, **kwargs):
     gitlab_response = proxy_view.dispatch(request, location)
 
     session = gitlab_response.cookies.get('_gitlab_session').value
-    set_cookies(request, '_gitlab_session', session)
+    set_cookies(request, '__gitlab_session', session)
+    request.COOKIES.set('_gitlab_session', session, path="/gitlab")
 
     request.method = 'POST'
 
 
 def logout_user(sender, user, request, **kwargs):
+    request.COOKIES.delete('__gitlab_session')
     request.COOKIES.delete('_gitlab_session', path='/gitlab')
+    request.COOKIES.delete('_remote_user')
