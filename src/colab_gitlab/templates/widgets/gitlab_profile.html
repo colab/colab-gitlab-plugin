@@ -31,10 +31,11 @@
 <script>jQuery.noConflict();</script>
 {% endblock %}
 
-<div id="gitlab-content">
+<div id="gitlab-content"    >
 </div>
 
 <script type="text/javascript">
   $('#gitlab-content form').prepend($("input[name='csrfmiddlewaretoken']").clone())
   $('a.delete-key').attr('data-method', 'delete\" type=\"hidden\" /> <input name=\"csrfmiddlewaretoken\" value=\"' + jQuery("input[name='csrfmiddlewaretoken']").val());
+  $('body').attr('data-page',"profiles:notifications:show");
 </script>

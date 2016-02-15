@@ -58,7 +58,8 @@ class GitlabProfileWidget(GitlabProxyView, Widget):
         return re.sub('^(.*)/gitlab/', '', url)
 
     def login_in_gitlab(self,request,g):
+        token = '32e80744e104cd10c909289694ea1164'
         request.COOKIES['_remote_user'] = 'macartur'
-        request.COOKIES['_gitlab_session'] = '1e2ebea2dac563ad6135f52895ac2341'
-        request.META['HTTP_COOKIE'] += '; _remote_user=macartur; _gitlab_session=1e2ebea2dac563ad6135f52895ac2341'
+        request.COOKIES['_gitlab_session'] = token
+        request.META['HTTP_COOKIE'] += '; _remote_user=macartur; _gitlab_session='+token
         return request

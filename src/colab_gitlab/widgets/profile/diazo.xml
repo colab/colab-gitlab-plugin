@@ -5,7 +5,13 @@
 
     <xsl:variable name="username" select="str:replace(//a/@href[(contains(., '/gitlab/u/'))], '/gitlab/u/', '')" />
     <xsl:template match="a/@href[(contains(., '/profile/'))]">
-        <xsl:attribute name="href">/account/<xsl:value-of select="$username"/>/edit?path=<xsl:value-of select="."/>/#gitlab_profile</xsl:attribute>
+        <xsl:if test="not(contains(.,'notifications'))">
+            <xsl:attribute name="href">/account/<xsl:value-of select="$username"/>/edit?path=<xsl:value-of select="."/>/#gitlab_profile</xsl:attribute>
+        </xsl:if>
+        <!-- XXX Remove this when the ajax issue is fixed-->
+        <xsl:if test="contains(.,'notifications')">
+            <xsl:attribute name="href"><xsl:value-of select="."/></xsl:attribute>
+        </xsl:if>
     </xsl:template>
     <xsl:template match="form/@action[(contains(., '/gitlab/'))]">
         <xsl:attribute name="action">/account/<xsl:value-of select="$username"/>/edit?path=<xsl:value-of select="."/>/#gitlab_profile</xsl:attribute>
