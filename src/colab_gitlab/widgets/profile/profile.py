@@ -52,7 +52,10 @@ class GitlabProfileWidget(GitlabProxyView, Widget):
             request.method = 'GET'
             response =  g.dispatch(request, requested_url)
 
-        self.content = response.content
+        if hasattr(response,'content'):
+            self.content = response.content
+        else:
+            self.content = "".join(response.streaming_content)
 
     def fix_requested_url(self,url):
         return re.sub('^(.*)/gitlab/', '', url)
