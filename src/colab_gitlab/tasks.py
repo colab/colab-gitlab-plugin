@@ -15,6 +15,14 @@ def set_cookies(request, name, value):
     request.META['HTTP_COOKIE'] += '; {}={}'.format(name, value)
 
 
+def set_session_as_cookie(response, request, session_key,
+                          cookie_key):
+    session = response.cookies.get(session_key).value
+    set_cookies(request, cookie_key, session)
+
+    return session
+
+
 def authenticate_user(sender, user, request, **kwargs):
     request.method = 'GET'
     try:
@@ -29,12 +37,12 @@ def authenticate_user(sender, user, request, **kwargs):
     gitlab_response = proxy_view.dispatch(request, location)
 
     location = get_location(gitlab_response)
-    session = gitlab_response.cookies.get('_gitlab_session').value
-    set_cookies(request, '_gitlab_session', session)
+    set_session_as_cookie(gitlab_response, request, '_gitlab_session',
+                          '_gitlab_session')
     gitlab_response = proxy_view.dispatch(request, location)
 
-    session = gitlab_response.cookies.get('_gitlab_session').value
-    set_cookies(request, '__gitlab_session', session)
+    session = set_session_as_cookie(gitlab_response, request,
+                                    '_gitlab_session', '__gitlab_session')
     request.COOKIES.set('_gitlab_session', session, path="/gitlab")
 
     request.method = 'POST'
