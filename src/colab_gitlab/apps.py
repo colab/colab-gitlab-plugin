@@ -1,8 +1,7 @@
-
+from django.contrib.auth.signals import user_logged_in, user_logged_out
+from colab_gitlab.tasks import authenticate_user, logout_user
 from colab.plugins.utils.apps import ColabPluginAppConfig
-from colab.signals.signals import register_signal, connect_signal
-
-from colab_gitlab.tasks import handling_method
+from colab.signals.signals import register_signal
 
 
 class GitlabPluginAppConfig(ColabPluginAppConfig):
@@ -17,7 +16,8 @@ class GitlabPluginAppConfig(ColabPluginAppConfig):
         register_signal(self.short_name, self.signals_list)
 
     def connect_signal(self):
-        connect_signal(self.signals_list[0], self.short_name, handling_method)
+        user_logged_in.connect(authenticate_user)
+        user_logged_out.connect(logout_user)
 
     def ready(self):
         from . import signals  # noqa
