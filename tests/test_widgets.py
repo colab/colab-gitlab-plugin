@@ -54,10 +54,12 @@ class WidgetsTest(TestCase):
                           url)
 
     @patch(module_path + '.fix_requested_url')
+    @patch(module_path + '.login_in_gitlab')
     @patch.object(GitlabProfileProxyView, 'dispatch')
     def test_generate_content(
-            self, dispatch_mock, fix_requested_url_mock):
+            self, dispatch_mock, login_in_gitlab_mock, fix_requested_url_mock):
         fix_requested_url_mock.return_value = 'test'
+        login_in_gitlab_mock.return_value = None
 
         self.http_response.status_code = 302
         self.http_response['Location'] = 'test/url'
@@ -91,11 +93,14 @@ class WidgetsTest(TestCase):
         self.assertEquals(content, self.profile_widget.content)
 
     @patch(module_path + '.fix_requested_url')
+    @patch(module_path + '.login_in_gitlab')
     @patch.object(GitlabProfileProxyView, 'dispatch')
     def test_generate_content_using_streaming_content(
-            self, dispatch_mock, fix_requested_url_mock):
+            self, dispatch_mock, login_in_gitlab_mock, fix_requested_url_mock):
 
+        login_in_gitlab_mock.return_value = None
         fix_requested_url_mock.return_value = 'test'
+
         self.streaming_http_response.status_code = 200
         dispatch_mock.return_value = self.streaming_http_response
 
@@ -108,3 +113,16 @@ class WidgetsTest(TestCase):
 
         content = ''.join(streaming_content)
         self.assertEquals(content, self.profile_widget.content)
+
+    def test_login_in_gitlab(self):
+        cookie = 'test_key'
+        self.current_request.META['HTTP_COOKIE'] = '__gitlab_session='+cookie
+        self.current_request.COOKIES['__gitlab_session'] = cookie
+        self.profile_widget.login_in_gitlab(self.current_request)
+
+        self.assertIn('_gitlab_session',
+                      self.current_request.META['HTTP_COOKIE'])
+        self.assertIn('_gitlab_session', self.current_request.COOKIES)
+
+        self.assertEquals(cookie,
+                          self.current_request.COOKIES['_gitlab_session'])
