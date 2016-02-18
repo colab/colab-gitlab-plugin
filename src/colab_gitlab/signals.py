@@ -34,7 +34,11 @@ def update_gitlab_password(sender, **kwargs):
         LOGGER.error(error_msg, user.username, reason)
         return
 
-    users = response.json()
+    users = []
+    try:
+        users = response.json()
+    except ValueError:
+        pass
 
     if 'message' in users:
         if '401' in users['message']:
@@ -60,14 +64,21 @@ def update_gitlab_password(sender, **kwargs):
         return
 
     if response.status_code != 200:
-        fail_data = response.json()
         reason = 'Unknown.'
 
-        if 'message' in fail_data:
-            fail_data_message = fail_data['message']
-            if (isinstance(fail_data_message, dict) and
-                    'password' in fail_data_message):
-                reason = fail_data['message'].get('password')
+        try:
+            fail_data = response.json()
+
+            if 'message' in fail_data:
+                fail_data_message = fail_data['message']
+                if (isinstance(fail_data_message, dict) and
+                        'password' in fail_data_message):
+                    reason = fail_data['message'].get('password')
+
+        except ValueError as value_error:
+            # Some responses do not return a valid json, e.g. 204 and 502
+            reason = '{} :: {}'.format(response.status_code,
+                                       value_error.message)
 
         LOGGER.error(error_msg, user.username, reason)
         return
