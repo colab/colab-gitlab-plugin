@@ -10,6 +10,7 @@ class GitlabProxyView(ColabProxyView):
         (r'^/[^/]+/profile/password/edit/?$', 'password_change'),
     )
 
+
 class GitlabProfileProxyView(ColabProxyView):
     app_label = 'colab_gitlab'
     diazo_theme_template = 'widgets/gitlab_profile.html'
