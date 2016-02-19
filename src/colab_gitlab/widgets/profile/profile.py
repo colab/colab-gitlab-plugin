@@ -8,6 +8,8 @@ class GitlabProfileWidget(GitlabProxyView, Widget):
     identifier = 'gitlab_profile'
     name = _('Development')
     default_url = '/gitlab/profile/account'
+    tmp_session_key = '__gitlab_session'
+    new_session_key = '_gitlab_session'
 
     def change_request_method(self, request):
         if not len(request.POST) or request.POST.get('colab_form', None):
@@ -31,7 +33,9 @@ class GitlabProfileWidget(GitlabProxyView, Widget):
         requested_url = self.fix_requested_url(requested_url)
 
         gitlab_proxy_view = GitlabProfileProxyView()
-        self.login_in_gitlab(request)
+
+        self.add_session_cookie(request)
+
         response = gitlab_proxy_view.dispatch(request, requested_url)
 
         if response.status_code == 302:
@@ -44,12 +48,20 @@ class GitlabProfileWidget(GitlabProxyView, Widget):
         else:
             self.content = "".join(response.streaming_content)
 
+        self.remove_session_cookie(request)
+
     def fix_requested_url(self, url):
         return re.sub('^(.*)/gitlab/', '', url)
 
-    def login_in_gitlab(self, request):
-        session_key = '__gitlab_session'
-        new_session_key = '_gitlab_session'
+    def add_session_cookie(self, request):
+        request.COOKIES.set(self.new_session_key,
+                            request.COOKIES[self.tmp_session_key])
+        cookie_text = request.META['HTTP_COOKIE'].replace(self.tmp_session_key,
+                                                          self.new_session_key)
+        request.META['HTTP_COOKIE'] = cookie_text
 
-        request.COOKIES[new_session_key] = request.COOKIES[session_key]
-        request.META['HTTP_COOKIE'].replace(session_key, new_session_key)
+    def remove_session_cookie(self, request):
+        del request.COOKIES[self.new_session_key]
+        cookie_text = request.META['HTTP_COOKIE'].replace(self.new_session_key,
+                                                          self.tmp_session_key)
+        request.META['HTTP_COOKIE'] = cookie_text

@@ -4,6 +4,7 @@ from django.test import TestCase
 from django.http import HttpRequest, HttpResponse, StreamingHttpResponse
 from colab_gitlab.widgets.profile.profile import GitlabProfileWidget
 from colab_gitlab.views import GitlabProfileProxyView
+from colab.middlewares.cookie_middleware import CookieHandler
 
 
 class WidgetsTest(TestCase):
@@ -17,6 +18,13 @@ class WidgetsTest(TestCase):
 
         self.http_response = HttpResponse()
         self.streaming_http_response = StreamingHttpResponse()
+
+    def create_cookie_handler(self, cookie_name, session):
+        cookie = cookie_name
+        cookies = CookieHandler()
+        cookies.set(session, cookie)
+
+        return cookies
 
     def test_change_request_method_with_colab_form(self):
         self.current_request.POST = {'colab_form': 'true'}
@@ -54,12 +62,13 @@ class WidgetsTest(TestCase):
                           url)
 
     @patch(module_path + '.fix_requested_url')
-    @patch(module_path + '.login_in_gitlab')
+    @patch(module_path + '.add_session_cookie')
+    @patch(module_path + '.remove_session_cookie')
     @patch.object(GitlabProfileProxyView, 'dispatch')
     def test_generate_content(
-            self, dispatch_mock, login_in_gitlab_mock, fix_requested_url_mock):
+            self, dispatch_mock, remove_session_cookie,
+            add_session_cookie, fix_requested_url_mock):
         fix_requested_url_mock.return_value = 'test'
-        login_in_gitlab_mock.return_value = None
 
         self.http_response.status_code = 302
         self.http_response['Location'] = 'test/url'
@@ -93,12 +102,13 @@ class WidgetsTest(TestCase):
         self.assertEquals(content, self.profile_widget.content)
 
     @patch(module_path + '.fix_requested_url')
-    @patch(module_path + '.login_in_gitlab')
+    @patch(module_path + '.add_session_cookie')
+    @patch(module_path + '.remove_session_cookie')
     @patch.object(GitlabProfileProxyView, 'dispatch')
     def test_generate_content_using_streaming_content(
-            self, dispatch_mock, login_in_gitlab_mock, fix_requested_url_mock):
+            self, dispatch_mock, remove_session_cookie,
+            add_session_cookie, fix_requested_url_mock):
 
-        login_in_gitlab_mock.return_value = None
         fix_requested_url_mock.return_value = 'test'
 
         self.streaming_http_response.status_code = 200
@@ -114,15 +124,36 @@ class WidgetsTest(TestCase):
         content = ''.join(streaming_content)
         self.assertEquals(content, self.profile_widget.content)
 
-    def test_login_in_gitlab(self):
-        cookie = 'test_key'
-        self.current_request.META['HTTP_COOKIE'] = '__gitlab_session='+cookie
-        self.current_request.COOKIES['__gitlab_session'] = cookie
-        self.profile_widget.login_in_gitlab(self.current_request)
+    def test_add_session_cookie(self):
+        cookie_name = 'test_cookie'
+        session = '__gitlab_session'
+
+        cookies = self.create_cookie_handler(cookie_name, session)
+
+        self.current_request.META['HTTP_COOKIE'] = session+"="+cookie_name
+        self.current_request.COOKIES = cookies
+        self.profile_widget.add_session_cookie(self.current_request)
 
         self.assertIn('_gitlab_session',
                       self.current_request.META['HTTP_COOKIE'])
         self.assertIn('_gitlab_session', self.current_request.COOKIES)
 
-        self.assertEquals(cookie,
+        self.assertEquals(cookie_name,
                           self.current_request.COOKIES['_gitlab_session'])
+
+    def test_remove_session_cookie(self):
+        cookie_name = 'test_cookie'
+        session = '_gitlab_session'
+
+        cookies = self.create_cookie_handler(cookie_name, session)
+
+        expected_http_cookie = '__gitlab_session='+cookie_name
+
+        self.current_request.COOKIES = cookies
+        self.current_request.META['HTTP_COOKIE'] = session+"="+cookie_name
+
+        self.profile_widget.remove_session_cookie(self.current_request)
+
+        self.assertEqual(0,  len(self.current_request.COOKIES))
+        self.assertEqual(expected_http_cookie,
+                         self.current_request.META['HTTP_COOKIE'])
