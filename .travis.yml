@@ -7,9 +7,12 @@ python:
 
 install:
   - pip install git+https://github.com/colab/colab/
-  - pip install flake8
+  - pip install flake8 coveralls
   - pip install .
 
 script:
   - python setup.py test
   - flake8 src/colab_gitlab
+
+after_success:
+  - coveralls

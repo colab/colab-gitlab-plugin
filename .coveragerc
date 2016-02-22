@@ -8,7 +8,7 @@ omit =
 	*/settings.py
 	*/tests.py
 source =
-    colab/
+    src/colab_gitlab/
 
 [report]
 precision = 2
@@ -16,6 +16,4 @@ show_missing = True
 
 [html]
 directory = coverage_report/
-title = Colab test coverage
-
-	
+title = Colab Gitlab Plugin Coverage

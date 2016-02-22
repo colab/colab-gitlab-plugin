@@ -13,7 +13,12 @@ install_requires = [
     'requests>=2.7.0',
 ]
 
-tests_require = ['mock']
+tests_require = [
+    'mock>=1.0.1',
+    'coverage>=3.7.1',
+    'coveralls>=0.5',
+    'flake8>=2.3.0'
+]
 
 
 setup(
