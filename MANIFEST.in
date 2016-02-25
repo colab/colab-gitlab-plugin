@@ -2,6 +2,7 @@ include setup.cfg
 include README.md
 include MANIFEST.in
 include src/colab_gitlab/diazo.xml
+include src/colab_gitlab/widgets/profile/diazo.xml
 recursive-include src/colab_gitlab/locale *
 recursive-include src/colab_gitlab/templates *
 recursive-exclude * __pycache__
