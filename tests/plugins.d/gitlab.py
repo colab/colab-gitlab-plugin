@@ -15,7 +15,7 @@ upstream = 'localhost'
 #   SSL with a self-signed certificate
 # verify_ssl = False
 
-# middlewares = []
+#middlewares = []
 
 urls = {
     'include': 'colab_gitlab.urls',
