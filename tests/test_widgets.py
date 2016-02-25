@@ -19,6 +19,10 @@ class WidgetsTest(TestCase):
         self.http_response = HttpResponse()
         self.streaming_http_response = StreamingHttpResponse()
 
+    def test_default_url(self):
+        self.assertEquals(self.profile_widget.default_url(),
+                          '/gitlab/profile/account')
+
     def create_cookie_handler(self, cookie_name, session):
         cookie = cookie_name
         cookies = CookieHandler()

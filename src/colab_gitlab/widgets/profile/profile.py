@@ -1,4 +1,5 @@
 from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
 from colab_gitlab.views import GitlabProxyView, GitlabProfileProxyView
 from colab.widgets.widget_manager import Widget
 import re
@@ -7,9 +8,13 @@ import re
 class GitlabProfileWidget(GitlabProxyView, Widget):
     identifier = 'gitlab_profile'
     name = _('Development')
-    default_url = '/gitlab/profile/account'
     tmp_session_key = '__gitlab_session'
     new_session_key = '_gitlab_session'
+
+    def default_url(self):
+        gitlab_prefix = settings.COLAB_APPS['colab_gitlab'].get('urls')
+        gitlab_prefix = gitlab_prefix.get('prefix').replace('^', '/')
+        return gitlab_prefix + 'profile/account'
 
     def change_request_method(self, request):
         if not len(request.POST) or request.POST.get('colab_form', None):
@@ -25,7 +30,7 @@ class GitlabProfileWidget(GitlabProxyView, Widget):
         path = request.GET.get('path', '')
 
         if is_colab_form or not path:
-            requested_url = self.default_url
+            requested_url = self.default_url()
         else:
             requested_url = path
 
