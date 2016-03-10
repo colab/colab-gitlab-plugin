@@ -1,5 +1,6 @@
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
+from django.contrib import messages
 from colab_gitlab.views import GitlabProxyView, GitlabProfileProxyView
 from colab.widgets.widget_manager import Widget
 import re
@@ -41,6 +42,11 @@ class GitlabProfileWidget(GitlabProxyView, Widget):
 
         self.add_session_cookie(request)
 
+        if request.COOKIES.get(self.new_session_key, '') == '':
+            messages.error(request, _('Something went wrong with gitlab '
+                                      'authentication, please relog.'))
+            return
+
         response = gitlab_proxy_view.dispatch(request, requested_url)
 
         if response.status_code == 302:
@@ -60,7 +66,7 @@ class GitlabProfileWidget(GitlabProxyView, Widget):
 
     def add_session_cookie(self, request):
         request.COOKIES.set(self.new_session_key,
-                            request.COOKIES[self.tmp_session_key])
+                            request.COOKIES.get(self.tmp_session_key, ''))
         cookie_text = request.META['HTTP_COOKIE'].replace(self.tmp_session_key,
                                                           self.new_session_key)
         request.META['HTTP_COOKIE'] = cookie_text
