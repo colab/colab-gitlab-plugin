@@ -2,6 +2,7 @@ from mock import patch
 
 from django.test import TestCase
 from django.http import HttpRequest, HttpResponse, StreamingHttpResponse
+
 from colab_gitlab.widgets.profile.profile import GitlabProfileWidget
 from colab_gitlab.views import GitlabProfileProxyView
 from colab.middlewares.cookie_middleware import CookieHandler
@@ -68,11 +69,14 @@ class WidgetsTest(TestCase):
     @patch(module_path + '.fix_requested_url')
     @patch(module_path + '.add_session_cookie')
     @patch(module_path + '.remove_session_cookie')
+    @patch('colab_gitlab.widgets.profile.profile.messages.error')
     @patch.object(GitlabProfileProxyView, 'dispatch')
     def test_generate_content(
-            self, dispatch_mock, remove_session_cookie,
+            self, dispatch_mock, error_mock, remove_session_cookie,
             add_session_cookie, fix_requested_url_mock):
         fix_requested_url_mock.return_value = 'test'
+
+        error_mock.side_effect = lambda request_arg, msg: msg
 
         self.http_response.status_code = 302
         self.http_response['Location'] = 'test/url'
@@ -85,8 +89,12 @@ class WidgetsTest(TestCase):
         self.current_request.POST = {'colab_form': True}
         self.current_request.GET = {'path': '/gitlab/test'}
         self.current_request.META['HTTP_COOKIE'] = ''
+        self.current_request.COOKIES = {'_gitlab_session': ''}
         params = {'context': {'request': self.current_request}}
 
+        self.assertEquals('', self.profile_widget.content)
+
+        self.current_request.COOKIES = {'_gitlab_session': 'test_token'}
         self.profile_widget.generate_content(**params)
         self.assertEquals(content, self.profile_widget.content)
         self.assertEquals(2, dispatch_mock.call_count)
@@ -108,12 +116,14 @@ class WidgetsTest(TestCase):
     @patch(module_path + '.fix_requested_url')
     @patch(module_path + '.add_session_cookie')
     @patch(module_path + '.remove_session_cookie')
+    @patch('colab_gitlab.widgets.profile.profile.messages.error')
     @patch.object(GitlabProfileProxyView, 'dispatch')
     def test_generate_content_using_streaming_content(
-            self, dispatch_mock, remove_session_cookie,
+            self, dispatch_mock, error_mock, remove_session_cookie,
             add_session_cookie, fix_requested_url_mock):
 
         fix_requested_url_mock.return_value = 'test'
+        error_mock.side_effect = lambda request_arg, msg: msg
 
         self.streaming_http_response.status_code = 200
         dispatch_mock.return_value = self.streaming_http_response
@@ -121,6 +131,7 @@ class WidgetsTest(TestCase):
         streaming_content = ["sample ", "streaming ", "string ", "content."]
         self.streaming_http_response.streaming_content = streaming_content
         self.current_request.META['HTTP_COOKIE'] = ''
+        self.current_request.COOKIES = {'_gitlab_session': 'test_token'}
 
         params = {'context': {'request': self.current_request}}
         self.profile_widget.generate_content(**params)
