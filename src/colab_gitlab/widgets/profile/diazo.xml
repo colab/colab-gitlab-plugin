@@ -5,6 +5,12 @@
 
     <xsl:variable name="username" select="str:replace(//a/@href[(contains(., '/gitlab/u/'))], '/gitlab/u/', '')" />
 
+    <!-- Change gitlab's meta authentity token -->
+    <drop content="meta[@name='csrf-param']"/>
+    <xsl:template match="meta/@name[(contains(., 'csrf-token'))]">
+        <xsl:attribute name="name">csrf-token-gitlab</xsl:attribute>
+    </xsl:template>
+
     <xsl:template match="a/@href[(contains(., '/profile/'))]">
         <xsl:attribute name="href">/account/<xsl:value-of select="$username"/>/edit?path=<xsl:value-of select="."/>/#gitlab_profile</xsl:attribute>
     </xsl:template>
@@ -31,16 +37,20 @@
     <drop content="fieldset[@class='update-username']" />
     <drop content="link[@rel='shortcut icon']" />
     <drop content="title" />
+    <drop css:content="#top-panel" />
+    <drop css:content=".navbar-gitlab" />
 
+    <!-- Merge heads -->
     <before theme-children="/html/head" content-children="/html/head" />
     <before css:theme-children="#gitlab-content" css:content-children="body" />
 
-    <merge attributes="class" css:theme="body" css:content="body" /> 
-
     <!-- Add gitlab properties -->
+    <merge attributes="class" css:theme="body" css:content="body" />
     <merge attributes="data-page" css:theme="body" css:content="body" />
     <merge attributes="data-project-id" css:theme="body" css:content="body" />
 
-    <drop css:content="#top-panel" />
-    <drop css:content=".navbar-gitlab" />
+    <!-- Drop gitlab metas to avoid conflicts with other tools -->
+    <drop content="meta[@charset='utf-8']"/>
+    <drop content="meta[@name='description']"/>
+    <drop content="meta[@name='viewport']"/>
 </rules>
