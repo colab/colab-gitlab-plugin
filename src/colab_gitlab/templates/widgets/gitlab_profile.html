@@ -44,35 +44,42 @@
             this.style.display = 'none';
         });
 
-      // Fix Duplicated confirm
-      $('#gitlab-content form .btn-build-token').off().click(function(evt){
-        evt.preventDefault();
-        evt.stopPropagation();
-        if (confirm('Are you sure?')) $('#gitlab-content form').submit();
-      });
-      });
+        // Fix Duplicated confirm
+        $('#gitlab-content form .btn-build-token').off().click(function(evt){
+          evt.preventDefault();
+          evt.stopPropagation();
+          if (confirm('Are you sure?')) $('#gitlab-content form').submit();
+        });
 
-      var colabCSRF = $("input[name='csrfmiddlewaretoken']").val();
-      var gitlabAuthToken = $('meta[name=csrf-token-gitlab]').attr('content');
-      // Pass Colab's CSRF token
-      $('#gitlab-content form').prepend($('<input type="hidden" name="csrfmiddlewaretoken" value="'+ colabCSRF +'">'));
-      $('#gitlab-content form[data-remote=true]').prepend($('<input type="hidden" name="authenticity_token" value="'+ gitlabAuthToken +'">')); // Gitlab's CSRF
-
-      // Pass Gitlab's CSRF token, overwritting Gitlab's original a.delete-key event
-      $('a.delete-key').off().click(function(evt){
-        evt.stopPropagation();
-        var data_method = $(this).attr('data-method');
-        var action = $(this).attr('href');
+        // Get CSRF token
+        var colabCSRF = $("input[name='csrfmiddlewaretoken']").val();
         var gitlabAuthToken = $('meta[name=csrf-token-gitlab]').attr('content');
-        var form = $('<form method="post" action="'+ action +'">');
-        form.append($('<input type="hidden" name="csrfmiddlewaretoken" value="'+ colabCSRF +'">')); // Colab's CSRF
-        form.append($('<input type="hidden" name="authenticity_token" value="'+ gitlabAuthToken +'">')); // Gitlab's CSRF
-        form.append($('<input type="hidden" name="_method" value="'+ data_method +'">')); // Gitlab's CSRF
-        if(confirm('Are you sure?'))
-        {
-          $('body').append(form);
-          form.submit();
-        }
+
+        // Pass Colab's CSRF token
+        $('#gitlab-content form').prepend($('<input type="hidden" name="csrfmiddlewaretoken" value="'+ colabCSRF +'">'));
+        $('#gitlab-content form[data-remote=true]').prepend($('<input type="hidden" name="authenticity_token" value="'+ gitlabAuthToken +'">')); // Gitlab's CSRF
+
+        // Create a input hidden with path to redirect
+        $('#gitlab-content form[path]').prepend('<input type="hidden" name="path" value="'+$('form[path]').attr('path') +'" >')
+
+        // Pass Gitlab's CSRF token, overwritting Gitlab's original a.delete-key event
+        $('a.delete-key').off().click(function(evt){
+          evt.stopPropagation();
+          var data_method = $(this).attr('data-method');
+          var action = $(this).attr('href');
+          var path = $(this).attr('path')
+          var gitlabAuthToken = $('meta[name=csrf-token-gitlab]').attr('content');
+          var form = $('<form method="post" action="'+ action +'">');
+          form.append($('<input type="hidden" name="csrfmiddlewaretoken" value="'+ colabCSRF +'">')); // Colab's CSRF
+          form.append($('<input type="hidden" name="authenticity_token" value="'+ gitlabAuthToken +'">')); // Gitlab's CSRF
+          form.append($('<input type="hidden" name="_method" value="'+ data_method +'">')); // Gitlab's CSRF
+          form.append($('<input type="hidden" name="path" value="'+ path +'" >'));
+          if(confirm('Are you sure?'))
+          {
+            $('body').append(form);
+            form.submit();
+          }
+        });
       });
     </script>
 {% endblock  %}
