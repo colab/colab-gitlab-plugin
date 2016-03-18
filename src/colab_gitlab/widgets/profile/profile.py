@@ -2,9 +2,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 from django.contrib import messages
 from colab_gitlab.views import GitlabProxyView, GitlabProfileProxyView
-from colab.widgets.widget_profile import  ProfileWidget
-import re
-from django.utils.safestring import mark_safe
+from colab.widgets.profile_widget import ProfileWidget
 
 
 class GitlabProfileWidget(GitlabProxyView, ProfileWidget):
@@ -31,7 +29,8 @@ class GitlabProfileWidget(GitlabProxyView, ProfileWidget):
 
         if response.status_code == 302:
             request.method = 'GET'
-            response = gitlab_proxy_view.dispatch(request, self.fix_url(response.get('Location')))
+            url = self.fix_url(response.get('Location'))
+            response = gitlab_proxy_view.dispatch(request, url)
 
         self.remove_session_cookie(request)
 
