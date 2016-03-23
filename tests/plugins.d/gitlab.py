@@ -20,6 +20,7 @@ upstream = 'localhost'
 urls = {
     'include': 'colab_gitlab.urls',
     'prefix': '^gitlab/',
+    'login': '/gitlab/users/sign_in',
 }
 
 menu_title = _('Code')
