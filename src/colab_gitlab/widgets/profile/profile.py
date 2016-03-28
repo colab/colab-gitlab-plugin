@@ -11,6 +11,7 @@ class GitlabProfileWidget(GitlabProxyView, ProfileWidget):
     tmp_session_key = '__gitlab_session'
     new_session_key = '_gitlab_session'
     app_name = 'colab_gitlab'
+    bootstrap_conflict = True
 
     def default_url(self, request):
         return '{}/profile/account'.format(self.prefix)
