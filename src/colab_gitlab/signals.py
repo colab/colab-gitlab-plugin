@@ -6,6 +6,7 @@ import requests
 from django.conf import settings
 from django.dispatch import receiver
 
+from .models import GitlabUser
 from colab.accounts.signals import (user_password_changed, user_created,
                                     user_basic_info_updated)
 
@@ -144,24 +145,23 @@ def create_gitlab_user(sender, **kwargs):
 @receiver(user_basic_info_updated)
 def update_basic_info_gitlab_user(sender, **kwargs):
     user = kwargs.get('user')
+    gitlab_user = GitlabUser.objects.filter(username=user.username).first()
+    if not gitlab_user:
+        return
 
     app_config = settings.COLAB_APPS.get('colab_gitlab', {})
     private_token = app_config.get('private_token')
     upstream = app_config.get('upstream', '').rstrip('/')
     verify_ssl = app_config.get('verify_ssl', True)
 
-    print 'message 2'
-    users_endpoint = '{}/api/v3/users'.format(upstream)
-    print users_endpoint
+    users_endpoint = '{}/api/v3/users/{}'.format(upstream,gitlab_user.id)
 
     params = {
         'name': user.get_full_name(),
         'private_token': private_token,
-        'email': user.email,
         'website_url': user.webpage,
         'bio': user.bio,
     }
-    print params
 
     error_msg = u'Error trying to update "%s"\'s basic info on Gitlab. Reason: %s'
     try:

@@ -9,7 +9,8 @@ from django.db.models.fields import DateTimeField
 from colab.plugins.data import PluginDataImporter
 
 from .models import (GitlabProject, GitlabMergeRequest,
-                     GitlabComment, GitlabIssue, GitlabGroup)
+                     GitlabComment, GitlabIssue, GitlabGroup,
+                     GitlabUser)
 
 
 LOGGER = logging.getLogger('colab_gitlab')
@@ -51,6 +52,7 @@ class GitlabDataImporter(PluginDataImporter):
                 if field.name == "project":
                     _object.project_id = element["project_id"]
                     continue
+
 
                 if isinstance(field, DateTimeField):
                     value = parse(element[field.name])
@@ -140,6 +142,16 @@ class GitlabDataImporter(PluginDataImporter):
         url = '/api/v3/projects/{}/issues/{}/notes'
         return self.fetch_comments(url, GitlabIssue, True)
 
+    def fetch_users(self):
+        url = '/api/v3/users'
+        return self.fetch(url, GitlabUser)
+
+class GitlabUserImporter(GitlabDataImporter):
+    def fetch_data(self):
+        LOGGER.info("Importing Users")
+        users = self.fetch_users()
+        for datum in users:
+            datum.save()
 
 class GitlabProjectImporter(GitlabDataImporter):
 

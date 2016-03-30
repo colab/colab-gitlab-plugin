@@ -56,6 +56,15 @@ class GitlabGroup(models.Model):
         verbose_name_plural = _('Gitlab Groups')
 
 
+class GitlabUser(models.Model):
+    id = models.IntegerField(primary_key=True)
+    username = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name = _('Gitlab User')
+        verbose_name_plural = _('Gitlab User')
+
+
 class GitlabMergeRequest(Collaboration):
 
     id = models.IntegerField(primary_key=True)
@@ -92,7 +101,6 @@ class GitlabMergeRequest(Collaboration):
         verbose_name = _('Gitlab Merge Request')
         verbose_name_plural = _('Gitlab Merge Requests')
 
-
 class GitlabIssue(Collaboration):
 
     id = models.IntegerField(primary_key=True)
@@ -120,7 +128,6 @@ class GitlabIssue(Collaboration):
     class Meta:
         verbose_name = _('Gitlab Issue')
         verbose_name_plural = _('Gitlab Issues')
-
 
 class GitlabComment(Collaboration):
 
