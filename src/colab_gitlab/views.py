@@ -1,5 +1,6 @@
 import os
 import sys
+from django.conf import settings
 from colab.plugins.views import ColabProxyView
 
 
@@ -8,6 +9,7 @@ class GitlabProxyView(ColabProxyView):
     diazo_theme_template = 'proxy/gitlab.html'
     rewrite = (
         (r'^/[^/]+/profile/password/edit/?$', 'password_change'),
+        ('^/gitlab/users/sign_in(.*)$', r'{}\1'.format(settings.LOGIN_URL)),
     )
 
 
