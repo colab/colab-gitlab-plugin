@@ -14,6 +14,7 @@ class WidgetsTest(TestCase):
     def setUp(self):
         self.profile_widget = GitlabProfileWidget()
         self.current_request = HttpRequest()
+        self.current_request.COOKIES['_gitlab_session'] = 'sampleuser'
         self.current_request.method = 'POST'
 
         self.http_response = HttpResponse()

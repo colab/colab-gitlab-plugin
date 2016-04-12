@@ -1,5 +1,4 @@
 from django.utils.translation import ugettext_lazy as _
-from django.conf import settings
 from django.contrib import messages
 from colab_gitlab.views import GitlabProxyView, GitlabProfileProxyView
 from colab.widgets.profile_widget import ProfileWidget
