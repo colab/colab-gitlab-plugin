@@ -12,6 +12,7 @@ from colab.accounts.signals import (user_password_changed, user_created,
 
 LOGGER = logging.getLogger('colab.plugins.gitlab')
 
+
 @receiver(user_password_changed)
 def update_gitlab_password(sender, **kwargs):
     user = kwargs.get('user')
@@ -157,7 +158,7 @@ def update_basic_info_gitlab_user(sender, **kwargs):
     upstream = app_config.get('upstream', '').rstrip('/')
     verify_ssl = app_config.get('verify_ssl', True)
 
-    users_endpoint = '{}/api/v3/users/{}'.format(upstream,gitlab_user.id)
+    users_endpoint = '{}/api/v3/users/{}'.format(upstream, gitlab_user.id)
 
     params = {
         'name': user.get_full_name(),
@@ -169,10 +170,11 @@ def update_basic_info_gitlab_user(sender, **kwargs):
     if update_email:
         params['email'] = user.email
 
-    error_msg = u'Error trying to update "%s"\'s basic info on Gitlab. Reason: %s'
+    error_msg = u'Error trying to update "%s"\'s basic info'
+    ' on Gitlab. Reason: %s'
     try:
-        response = requests.put(users_endpoint, params=params,
-                                 verify=verify_ssl)
+        response = requests.put(users_endpoint,
+                                params=params, verify=verify_ssl)
 
     except Exception as excpt:
         reason = 'Request to API failed ({})'.format(excpt)
@@ -201,53 +203,3 @@ def update_basic_info_gitlab_user(sender, **kwargs):
         return
 
     LOGGER.info('Gitlab user\'s basic info "%s" updated', user.username)
-
-
-#@receiver(user_email_updated)
-#def update_email_gitlab_user(sender, **kwargs):
-#    user = kwargs.get('user')
-#    emails = kwargs.get('emails')
-#
-#    app_config = settings.COLAB_APPS.get('colab_gitlab', {})
-#    private_token = app_config.get('private_token')
-#    upstream = app_config.get('upstream', '').rstrip('/')
-#    verify_ssl = app_config.get('verify_ssl', True)
-#
-#    users_endpoint = '{}/api/v3/users'.format(upstream)
-#
-#    params = {
-#        'private_token': private_token,
-#        'emails': emails, # TODO: find out how gitlab handle multiple emails
-#    }
-#
-#    error_msg = u'Error trying to update "%s"\'s emails on Gitlab. Reason: %s'
-#    try:
-#        response = requests.put(users_endpoint, params=params,
-#                                 verify=verify_ssl)
-#    except Exception as excpt:
-#        reason = 'Request to API failed ({})'.format(excpt)
-#        LOGGER.error(error_msg, user.username, reason)
-#        return
-#
-#    if response.status_code != 201:
-#        reason = 'Unknown.'
-#
-#        try:
-#            fail_data = response.json()
-#
-#            if 'message' in fail_data:
-#                fail_data_message = fail_data['message']
-#                # TODO: take care of gitlab error messages
-#                if (isinstance(fail_data_message, dict) and
-#                        'password' in fail_data_message):
-#                    reason = fail_data['message'].get('password')
-#
-#        except ValueError as value_error:
-#            # Some responses do not return a valid json, e.g. 204 and 502
-#            reason = '{} :: {}'.format(response.status_code,
-#                                       value_error.message)
-#
-#        LOGGER.error(error_msg, user.username, reason)
-#        return
-#
-#    LOGGER.info('Gitlab user\'s emails "%s" updated', user.username)

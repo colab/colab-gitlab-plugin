@@ -53,7 +53,6 @@ class GitlabDataImporter(PluginDataImporter):
                     _object.project_id = element["project_id"]
                     continue
 
-
                 if isinstance(field, DateTimeField):
                     value = parse(element[field.name])
                 else:
@@ -146,12 +145,14 @@ class GitlabDataImporter(PluginDataImporter):
         url = '/api/v3/users'
         return self.fetch(url, GitlabUser)
 
+
 class GitlabUserImporter(GitlabDataImporter):
     def fetch_data(self):
         LOGGER.info("Importing Users")
         users = self.fetch_users()
         for datum in users:
             datum.save()
+
 
 class GitlabProjectImporter(GitlabDataImporter):
 

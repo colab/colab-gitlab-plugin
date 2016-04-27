@@ -101,6 +101,7 @@ class GitlabMergeRequest(Collaboration):
         verbose_name = _('Gitlab Merge Request')
         verbose_name_plural = _('Gitlab Merge Requests')
 
+
 class GitlabIssue(Collaboration):
 
     id = models.IntegerField(primary_key=True)
@@ -128,6 +129,7 @@ class GitlabIssue(Collaboration):
     class Meta:
         verbose_name = _('Gitlab Issue')
         verbose_name_plural = _('Gitlab Issues')
+
 
 class GitlabComment(Collaboration):
 
