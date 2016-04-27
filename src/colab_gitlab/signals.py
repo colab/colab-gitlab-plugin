@@ -145,7 +145,10 @@ def create_gitlab_user(sender, **kwargs):
 @receiver(user_basic_info_updated)
 def update_basic_info_gitlab_user(sender, **kwargs):
     user = kwargs.get('user')
+    update_email = kwargs.get('update_email')
+
     gitlab_user = GitlabUser.objects.filter(username=user.username).first()
+
     if not gitlab_user:
         return
 
@@ -163,10 +166,14 @@ def update_basic_info_gitlab_user(sender, **kwargs):
         'bio': user.bio,
     }
 
+    if update_email:
+        params['email'] = user.email
+
     error_msg = u'Error trying to update "%s"\'s basic info on Gitlab. Reason: %s'
     try:
         response = requests.put(users_endpoint, params=params,
                                  verify=verify_ssl)
+
     except Exception as excpt:
         reason = 'Request to API failed ({})'.format(excpt)
         LOGGER.error(error_msg, user.username, reason)
