@@ -8,7 +8,7 @@ from django.dispatch import receiver
 
 from .models import GitlabUser
 from colab.accounts.signals import (user_password_changed, user_created,
-                                    user_basic_info_updated)
+                                    user_basic_info_updated, delete_user)
 
 LOGGER = logging.getLogger('colab.plugins.gitlab')
 
@@ -199,7 +199,60 @@ def update_basic_info_gitlab_user(sender, **kwargs):
             reason = '{} :: {}'.format(response.status_code,
                                        value_error.message)
 
-        LOGGER.error(error_msg, user.username, reason)
         return
 
     LOGGER.info('Gitlab user\'s basic info "%s" updated', user.username)
+
+
+@receiver(delete_user)
+def delete_user(sender, **kwargs):
+    user = kwargs.get('user')
+
+    gitlab_user = GitlabUser.objects.filter(username=user.username).first()
+
+    if not gitlab_user:
+        return
+
+    app_config = settings.COLAB_APPS.get('colab_gitlab', {})
+    private_token = app_config.get('private_token')
+    upstream = app_config.get('upstream', '').rstrip('/')
+    verify_ssl = app_config.get('verify_ssl', True)
+
+    users_endpoint = '{}/api/v3/users/{}'.format(upstream, gitlab_user.id)
+
+    params = {
+        'private_token': private_token
+    }
+
+    error_msg = u'Error trying to delete "%s" on Gitlab. Reason: %s'
+    try:
+        response = requests.delete(users_endpoint,
+                                params=params, verify=verify_ssl)
+
+    except Exception as excpt:
+        reason = 'Request to API failed ({})'.format(excpt)
+        LOGGER.error(error_msg, user.username, reason)
+        return
+
+    if response.status_code != 201:
+        reason = 'Unknown.'
+
+        try:
+            fail_data = response.json()
+
+            if 'message' in fail_data:
+                fail_data_message = fail_data['message']
+                # TODO: take care of gitlab error messages
+                if (isinstance(fail_data_message, dict) and
+                        'password' in fail_data_message):
+                    reason = fail_data['message'].get('password')
+
+        except ValueError as value_error:
+            # Some responses do not return a valid json, e.g. 204 and 502
+            reason = '{} :: {}'.format(response.status_code,
+                                       value_error.message)
+
+        LOGGER.error(error_msg, user.username, reason)
+        return
+
+    LOGGER.info('Gitlab user "%s" deleted', user.username)
