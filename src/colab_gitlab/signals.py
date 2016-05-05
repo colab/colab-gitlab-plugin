@@ -23,7 +23,7 @@ def update_gitlab_password(sender, **kwargs):
     upstream = app_config.get('upstream', '').rstrip('/')
     verify_ssl = app_config.get('verify_ssl', True)
 
-    error_msg = u'Error trying to update "%s" password on Gitlab. Reason: %s'
+    error_msg = u'Error trying to update "{}" password on Gitlab. Reason: {}'
 
     users_endpoint = '{}/api/v3/users'.format(upstream)
 
@@ -33,7 +33,8 @@ def update_gitlab_password(sender, **kwargs):
                                 verify=verify_ssl)
     except Exception as excpt:
         reason = 'Request to API failed ({})'.format(excpt)
-        LOGGER.error(error_msg, user.username, reason)
+        error_msg = error_msg.format(user.username, reason)
+        LOGGER.error(error_msg)
         return
 
     users = []
@@ -111,13 +112,14 @@ def create_gitlab_user(sender, **kwargs):
         'private_token': private_token,
     }
 
-    error_msg = u'Error trying to update "%s" password on Gitlab. Reason: %s'
+    error_msg = u'Error trying to update "{}" password on Gitlab. Reason: {}'
     try:
         response = requests.post(users_endpoint, params=params,
                                  verify=verify_ssl)
     except Exception as excpt:
         reason = 'Request to API failed ({})'.format(excpt)
-        LOGGER.error(error_msg, user.username, reason)
+        error_msg = error_msg.format(user.username, reason)
+        LOGGER.error(error_msg)
         return
 
     if response.status_code != 201:
@@ -136,8 +138,8 @@ def create_gitlab_user(sender, **kwargs):
             # Some responses do not return a valid json, e.g. 204 and 502
             reason = '{} :: {}'.format(response.status_code,
                                        value_error.message)
-
-        LOGGER.error(error_msg, user.username, reason)
+        error_msg = error_msg.format(user.username, reason)
+        LOGGER.error(error_msg)
         return
 
     LOGGER.info('Gitlab user "%s" created', user.username)
@@ -170,15 +172,16 @@ def update_basic_info_gitlab_user(sender, **kwargs):
     if update_email:
         params['email'] = user.email
 
-    error_msg = u'Error trying to update "%s"\'s basic info'
-    ' on Gitlab. Reason: %s'
+    error_msg = (u'Error trying to update "{}"\'s basic info on Gitlab.'
+                 ' Reason: {}')
     try:
         response = requests.put(users_endpoint,
                                 params=params, verify=verify_ssl)
 
     except Exception as excpt:
         reason = 'Request to API failed ({})'.format(excpt)
-        LOGGER.error(error_msg, user.username, reason)
+        error_msg = error_msg.format(user.username, reason)
+        LOGGER.error(error_msg)
         return
 
     if response.status_code != 201:
@@ -198,7 +201,8 @@ def update_basic_info_gitlab_user(sender, **kwargs):
             # Some responses do not return a valid json, e.g. 204 and 502
             reason = '{} :: {}'.format(response.status_code,
                                        value_error.message)
-
+        error_msg = error_msg.format(user.username, reason)
+        LOGGER.error(error_msg)
         return
 
     LOGGER.info('Gitlab user\'s basic info "%s" updated', user.username)
@@ -224,14 +228,14 @@ def delete_user(sender, **kwargs):
         'private_token': private_token
     }
 
-    error_msg = u'Error trying to delete "%s" on Gitlab. Reason: %s'
+    error_msg = u'Error trying to delete "{}" on Gitlab. Reason: {}'
     try:
         response = requests.delete(users_endpoint,
-                                params=params, verify=verify_ssl)
-
+                                   params=params, verify=verify_ssl)
     except Exception as excpt:
         reason = 'Request to API failed ({})'.format(excpt)
-        LOGGER.error(error_msg, user.username, reason)
+        error_msg = error_msg.format(user.username, reason)
+        LOGGER.error(error_msg)
         return
 
     if response.status_code != 201:
@@ -252,7 +256,11 @@ def delete_user(sender, **kwargs):
             reason = '{} :: {}'.format(response.status_code,
                                        value_error.message)
 
-        LOGGER.error(error_msg, user.username, reason)
+        error_msg = error_msg.format(user.username, reason)
+        LOGGER.error(error_msg)
         return
 
-    LOGGER.info('Gitlab user "%s" deleted', user.username)
+    gitlab_user.delete()
+
+    msg = 'Gitlab user "{}" deleted'.format(user.username)
+    LOGGER.info(msg)
