@@ -6,7 +6,9 @@ import requests
 from django.conf import settings
 from django.dispatch import receiver
 
-from colab.accounts.signals import user_password_changed, user_created
+from .models import GitlabUser
+from colab.accounts.signals import (user_password_changed, user_created,
+                                    user_basic_info_updated)
 
 LOGGER = logging.getLogger('colab.plugins.gitlab')
 
@@ -139,3 +141,65 @@ def create_gitlab_user(sender, **kwargs):
         return
 
     LOGGER.info('Gitlab user "%s" created', user.username)
+
+
+@receiver(user_basic_info_updated)
+def update_basic_info_gitlab_user(sender, **kwargs):
+    user = kwargs.get('user')
+    update_email = kwargs.get('update_email')
+
+    gitlab_user = GitlabUser.objects.filter(username=user.username).first()
+
+    if not gitlab_user:
+        return
+
+    app_config = settings.COLAB_APPS.get('colab_gitlab', {})
+    private_token = app_config.get('private_token')
+    upstream = app_config.get('upstream', '').rstrip('/')
+    verify_ssl = app_config.get('verify_ssl', True)
+
+    users_endpoint = '{}/api/v3/users/{}'.format(upstream, gitlab_user.id)
+
+    params = {
+        'name': user.get_full_name(),
+        'private_token': private_token,
+        'website_url': user.webpage,
+        'bio': user.bio,
+    }
+
+    if update_email:
+        params['email'] = user.email
+
+    error_msg = u'Error trying to update "%s"\'s basic info'
+    ' on Gitlab. Reason: %s'
+    try:
+        response = requests.put(users_endpoint,
+                                params=params, verify=verify_ssl)
+
+    except Exception as excpt:
+        reason = 'Request to API failed ({})'.format(excpt)
+        LOGGER.error(error_msg, user.username, reason)
+        return
+
+    if response.status_code != 201:
+        reason = 'Unknown.'
+
+        try:
+            fail_data = response.json()
+
+            if 'message' in fail_data:
+                fail_data_message = fail_data['message']
+                # TODO: take care of gitlab error messages
+                if (isinstance(fail_data_message, dict) and
+                        'password' in fail_data_message):
+                    reason = fail_data['message'].get('password')
+
+        except ValueError as value_error:
+            # Some responses do not return a valid json, e.g. 204 and 502
+            reason = '{} :: {}'.format(response.status_code,
+                                       value_error.message)
+
+        LOGGER.error(error_msg, user.username, reason)
+        return
+
+    LOGGER.info('Gitlab user\'s basic info "%s" updated', user.username)
