@@ -1,6 +1,8 @@
 import os
 import sys
+
 from django.conf import settings
+from django.shortcuts import redirect
 from colab.plugins.views import ColabProxyView
 
 
@@ -11,6 +13,25 @@ class GitlabProxyView(ColabProxyView):
         (r'^/[^/]+/profile/password/edit/?$', 'password_change'),
         ('^/gitlab/users/sign_in(.*)$', r'{}\1'.format(settings.LOGIN_URL)),
     )
+
+    def verify_forbidden_path(self, path, user):
+        prefix = settings.COLAB_APPS['colab_gitlab'].get('urls')
+        prefix = prefix.get('prefix').replace('^', '/')
+        forbidden = '{}profile'.format(prefix)
+
+        if forbidden in path:
+            return True
+        return False
+
+    def dispatch(self, request, *args, **kwargs):
+
+        self.request = request
+
+        if self.verify_forbidden_path(self.request.path, self.request.user):
+            path = r'/account/{}/edit'.format(self.request.user)
+            return redirect(path)
+
+        return super(GitlabProxyView, self).dispatch(request, *args, **kwargs)
 
 
 class GitlabProfileProxyView(ColabProxyView):
