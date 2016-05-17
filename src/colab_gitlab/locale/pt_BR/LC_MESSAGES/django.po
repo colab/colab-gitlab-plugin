@@ -16,6 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
+#: plugins.d/gitlab.py:45
 #: src/colab_gitlab/filters.py:7
 msgid "Projects"
 msgstr "Projetos"
@@ -30,6 +31,7 @@ msgstr "Nome"
 msgid "Description"
 msgstr "Descrição"
 
+#: plugins.d/gitlab.py:51
 #: src/colab_gitlab/filters.py:19
 msgid "Merge Requests"
 msgstr "Envio de Contribuições"
@@ -38,6 +40,7 @@ msgstr "Envio de Contribuições"
 msgid "State"
 msgstr "Estado"
 
+#: plugins.d/gitlab.py:49
 #: src/colab_gitlab/filters.py:32
 msgid "Issues"
 msgstr "Tíquetes"
@@ -123,3 +126,19 @@ msgstr "Desenvolvimento"
 #: src/colab_gitlab/widgets/profile/profile.py:24
 msgid "Something went wrong with gitlab authentication, please relog."
 msgstr "Falha na autenticação do gitlab, porfavor relogue."
+
+#: plugins.d/gitlab.py:39
+msgid "Public Projects"
+msgstr "Projetos Públicos"
+
+#: plugins.d/gitlab.py:41
+msgid "Profile"
+msgstr "Perfil"
+
+#: plugins.d/gitlab.py:43
+msgid "New Project"
+msgstr "Novo Projeto"
+
+#: plugins.d/gitlab.py:45
+msgid "Groups"
+msgstr "Grupos"
