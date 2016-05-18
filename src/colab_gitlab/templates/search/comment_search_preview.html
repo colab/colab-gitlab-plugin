@@ -1,12 +1,13 @@
 {% extends "search-base.html" %}
-{% load set_var gitlab_urls %}
+{% load set_var gitlab_urls i18n %}
 {% block content %}
   {% profile_url result.modified_by|default_if_none:"" result.modified_by_url as user_url%}
   {% set 'author' user_url %}
   {% set 'title' result.title %}
   {% set 'modified' result.modified %}
   {% set 'url' result.url %}
-  {% set 'registered_in' "Code" %}
+  {% trans "Code" as code_message %}
+  {% set 'registered_in' code_message  %}
   {% set 'description' result.description|default_if_none:" "|truncatechars:"140" %}
 
   {{ block.super }}
