@@ -20,13 +20,13 @@ table = string.maketrans(
 
 
 class GitlabProjectIndex(indexes.SearchIndex, indexes.Indexable):
-    text = indexes.CharField(document=True, use_template=True, stored=False)
-    title = indexes.CharField(model_attr='name')
-    description = indexes.CharField(model_attr='description', null=True)
-    tag = indexes.CharField()
-    url = indexes.CharField(model_attr='url', indexed=False)
-    icon_name = indexes.CharField()
-    type = indexes.CharField()
+    text = indexes.EdgeNgramField(document=True, use_template=True, stored=False)
+    title = indexes.EdgeNgramField(model_attr='name')
+    description = indexes.EdgeNgramField(model_attr='description', null=True)
+    tag = indexes.EdgeNgramField()
+    url = indexes.EdgeNgramField(model_attr='url', indexed=False)
+    icon_name = indexes.EdgeNgramField()
+    type = indexes.EdgeNgramField()
     created = indexes.DateTimeField(model_attr='created_at', null=True)
 
     def prepare_tag(self, obj):
@@ -44,16 +44,16 @@ class GitlabProjectIndex(indexes.SearchIndex, indexes.Indexable):
 
 class GitlabMergeRequestIndex(indexes.SearchIndex, indexes.Indexable):
 
-    text = indexes.CharField(document=True, use_template=True, stored=False)
-    title = indexes.CharField(model_attr='title')
-    description = indexes.CharField(model_attr='description')
-    tag = indexes.CharField(model_attr='state')
-    url = indexes.CharField(model_attr='url', indexed=False)
-    icon_name = indexes.CharField()
-    type = indexes.CharField(model_attr='type')
+    text = indexes.EdgeNgramField(document=True, use_template=True, stored=False)
+    title = indexes.EdgeNgramField(model_attr='title')
+    description = indexes.EdgeNgramField(model_attr='description')
+    tag = indexes.EdgeNgramField(model_attr='state')
+    url = indexes.EdgeNgramField(model_attr='url', indexed=False)
+    icon_name = indexes.EdgeNgramField()
+    type = indexes.EdgeNgramField(model_attr='type')
 
-    modified_by = indexes.CharField(model_attr='modified_by', null=True)
-    modified_by_url = indexes.CharField(model_attr='modified_by_url',
+    modified_by = indexes.EdgeNgramField(model_attr='modified_by', null=True)
+    modified_by_url = indexes.EdgeNgramField(model_attr='modified_by_url',
                                         null=True)
     modified = indexes.DateTimeField(model_attr='created_at', null=True)
 
@@ -66,16 +66,16 @@ class GitlabMergeRequestIndex(indexes.SearchIndex, indexes.Indexable):
 
 class GitlabIssueIndex(indexes.SearchIndex, indexes.Indexable):
 
-    text = indexes.CharField(document=True, use_template=True, stored=False)
-    title = indexes.CharField(model_attr='title')
-    description = indexes.CharField(model_attr='description')
-    tag = indexes.CharField(model_attr='state')
-    url = indexes.CharField(model_attr='url', indexed=False)
-    icon_name = indexes.CharField()
-    type = indexes.CharField(model_attr='type')
+    text = indexes.EdgeNgramField(document=True, use_template=True, stored=False)
+    title = indexes.EdgeNgramField(model_attr='title')
+    description = indexes.EdgeNgramField(model_attr='description')
+    tag = indexes.EdgeNgramField(model_attr='state')
+    url = indexes.EdgeNgramField(model_attr='url', indexed=False)
+    icon_name = indexes.EdgeNgramField()
+    type = indexes.EdgeNgramField(model_attr='type')
 
-    modified_by = indexes.CharField(model_attr='modified_by', null=True)
-    modified_by_url = indexes.CharField(model_attr='modified_by_url',
+    modified_by = indexes.EdgeNgramField(model_attr='modified_by', null=True)
+    modified_by_url = indexes.EdgeNgramField(model_attr='modified_by_url',
                                         null=True)
     modified = indexes.DateTimeField(model_attr='created_at', null=True)
 
@@ -88,16 +88,16 @@ class GitlabIssueIndex(indexes.SearchIndex, indexes.Indexable):
 
 class GitlabCommentIndex(indexes.SearchIndex, indexes.Indexable):
 
-    text = indexes.CharField(document=True, use_template=True, stored=False)
-    title = indexes.CharField(model_attr='title')
-    description = indexes.CharField(model_attr='description')
-    tag = indexes.CharField()
-    url = indexes.CharField(model_attr='url', indexed=False)
-    icon_name = indexes.CharField()
-    type = indexes.CharField(model_attr='type')
+    text = indexes.EdgeNgramField(document=True, use_template=True, stored=False)
+    title = indexes.EdgeNgramField(model_attr='title')
+    description = indexes.EdgeNgramField(model_attr='description')
+    tag = indexes.EdgeNgramField()
+    url = indexes.EdgeNgramField(model_attr='url', indexed=False)
+    icon_name = indexes.EdgeNgramField()
+    type = indexes.EdgeNgramField(model_attr='type')
 
-    modified_by = indexes.CharField(model_attr='modified_by', null=True)
-    modified_by_url = indexes.CharField(model_attr='modified_by_url',
+    modified_by = indexes.EdgeNgramField(model_attr='modified_by', null=True)
+    modified_by_url = indexes.EdgeNgramField(model_attr='modified_by_url',
                                         null=True)
     modified = indexes.DateTimeField(model_attr='created_at', null=True)
 
