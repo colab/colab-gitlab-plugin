@@ -30,6 +30,10 @@ class GitlabProxyView(ColabProxyView):
         if self.verify_forbidden_path(self.request.path, self.request.user):
             tab = '#gitlab_profile'
             path = r'/account/{}/edit'.format(self.request.user)
+
+            if 'groups' in self.request.path:
+                path += '?path={}/'.format(request.path)
+
             return redirect(path+tab)
 
         return super(GitlabProxyView, self).dispatch(request, *args, **kwargs)
