@@ -156,7 +156,7 @@ class GitlabTest(TestCase):
                                           COLAB_APPS_mock):
 
         resquests_post_mock.return_value = Mock(
-            status_code=201,
+            status_code=200,
             json=lambda: {'message': 'Unauthorized'}
         )
 

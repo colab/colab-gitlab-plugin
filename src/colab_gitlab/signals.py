@@ -184,7 +184,7 @@ def update_basic_info_gitlab_user(sender, **kwargs):
         LOGGER.error(error_msg)
         return
 
-    if response.status_code != 201:
+    if response.status_code != 200:
         reason = 'Unknown.'
 
         try:
