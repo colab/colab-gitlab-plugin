@@ -6,7 +6,7 @@ logger = logging.getLogger(__name__)
 
 
 def get_location(response):
-    location = response.get('Location')
+    location = response.get('Location', '')
     return re.sub('(.*)/gitlab/', '', location)
 
 
@@ -37,13 +37,14 @@ def authenticate_user(sender, user, request, **kwargs):
     gitlab_response = proxy_view.dispatch(request, location)
 
     location = get_location(gitlab_response)
-    set_session_as_cookie(gitlab_response, request, '_gitlab_session',
-                          '_gitlab_session')
-    gitlab_response = proxy_view.dispatch(request, location)
+    if location:
+        set_session_as_cookie(gitlab_response, request, '_gitlab_session',
+                              '_gitlab_session')
+        gitlab_response = proxy_view.dispatch(request, location)
 
-    session = set_session_as_cookie(gitlab_response, request,
-                                    '_gitlab_session', '__gitlab_session')
-    request.COOKIES.set('_gitlab_session', session, path="/gitlab")
+        session = set_session_as_cookie(gitlab_response, request,
+                                        '_gitlab_session', '__gitlab_session')
+        request.COOKIES.set('_gitlab_session', session, path="/gitlab")
 
     request.method = 'POST'
 
