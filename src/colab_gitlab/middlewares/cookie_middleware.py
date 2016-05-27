@@ -1,11 +1,13 @@
 class CookiePostHandlerMiddleware(object):
     """
-    CookiePostHandlerMiddleware used to avoid gitlab_exipres cookie
+    CookiePostHandlerMiddleware used to avoid gitlab expires cookie
+    before the colab cookies
     """
 
     def process_response(self, request, response):
-        gitlab_session = response.cookies.get('_gitlab_session', '')
-        if gitlab_session:
-            gitlab_session['expires'] = None
+        colab_session = request.COOKIES.get('sessionid', '')
+
+        if colab_session:
+            response.cookies.pop('_gitlab_session', '')
 
         return response
