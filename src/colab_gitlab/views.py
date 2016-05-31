@@ -14,12 +14,14 @@ class GitlabProxyView(ColabProxyView):
         ('^/gitlab/users/sign_in(.*)$', r'{}\1'.format(settings.LOGIN_URL)),
     )
 
-    def verify_forbidden_path(self, path, user):
+    def verify_forbidden_path(self, request):
+        path = request.path
+
         prefix = settings.COLAB_APPS['colab_gitlab'].get('urls')
         prefix = prefix.get('prefix').replace('^', '/')
         forbidden = '{}profile'.format(prefix)
 
-        if forbidden in path:
+        if forbidden in path and not request.is_ajax():
             return True
         return False
 
@@ -27,7 +29,7 @@ class GitlabProxyView(ColabProxyView):
 
         self.request = request
 
-        if self.verify_forbidden_path(self.request.path, self.request.user):
+        if self.verify_forbidden_path(self.request):
             tab = '#gitlab_profile'
             path = r'/account/{}/edit'.format(self.request.user)
 
