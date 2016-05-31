@@ -13,9 +13,9 @@
 
     <!-- Change gitlab's links -->
     <xsl:template match="a/@href[(contains(., '/profile/'))]">
-        <xsl:attribute name="href">/account/<xsl:value-of select="$username"/>/edit?path=<xsl:value-of select="."/>/#gitlab_profile</xsl:attribute>
+        <xsl:attribute name="href">/account/<xsl:value-of select="$username"/>/edit?path=<xsl:value-of select="."/>&amp;target=gitlab_profile#gitlab_profile</xsl:attribute>
         <xsl:if test="../@rel[(contains(., 'nofollow'))]">
-            <xsl:attribute name="href">/account/<xsl:value-of select="$username"/>/edit/#gitlab_profile</xsl:attribute>
+            <xsl:attribute name="href">/account/<xsl:value-of select="$username"/>/edit?target=gitlab_profile#gitlab_profile</xsl:attribute>
             <xsl:attribute name="path"><xsl:value-of select="."/></xsl:attribute>
         </xsl:if>
     </xsl:template>
@@ -28,7 +28,7 @@
 
         <xsl:if test="not(../@data-remote)">
             <xsl:attribute name="path" ><xsl:value-of select="."/></xsl:attribute>
-            <xsl:attribute name="action">/account/<xsl:value-of select="$username"/>/edit/#gitlab_profile</xsl:attribute>
+            <xsl:attribute name="action">/account/<xsl:value-of select="$username"/>/edit?target=gitlab_profile#gitlab_profile</xsl:attribute>
         </xsl:if>
     </xsl:template>
 
