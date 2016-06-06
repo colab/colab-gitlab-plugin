@@ -23,7 +23,7 @@ tests_require = [
 
 setup(
     name="colab-gitlab",
-    version='0.2.14',
+    version='0.2.15',
     author='Sergio Oliveira',
     author_email='sergio@tracy.com.br',
     url='https://github.com/colab/colab-gitlab-plugin',
